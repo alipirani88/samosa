@@ -1,5 +1,5 @@
 samples: config/samples.tsv
-fastq_dir: /scratch/esnitkin_root/esnitkin/apirani/Project_VRE_metagenomics_analysis/2021_06_25_LDV_Simulation/Simulated_data/Part1/0.5perc
+fastq_dir: /scratch/esnitkin_root/esnitkin/apirani/Project_VRE_metagenomics_analysis/2021_06_25_LDV_Simulation/Simulated_data/test_data
 
 # Command line parameters for rule trimmomatic_pe - trimmomatic.smk
 adapter_file: /config/adapters/NexteraPE-PE.fa
