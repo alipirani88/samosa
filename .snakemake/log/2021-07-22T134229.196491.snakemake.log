@@ -1,0 +1,109 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 4
+Rules claiming more threads will be scaled down.
+Job stats:
+job                    count    min threads    max threads
+-------------------  -------  -------------  -------------
+GATK_MarkDuplicates        1              1              1
+all                        1              1              1
+bowtie2Align               1              4              4
+bowtie2Build               1              1              1
+freebayes                  1              1              1
+samtools_faidx             1              1              1
+trimmomatic_pe             1              1              1
+total                      7              1              4
+
+Select jobs to execute...
+
+[Thu Jul 22 13:42:30 2021]
+rule trimmomatic_pe:
+    input: /scratch/esnitkin_root/esnitkin/apirani/Project_VRE_metagenomics_analysis/2021_06_25_LDV_Simulation/Simulated_data/Part1/0.5perc/A_R1_001.fastq.gz, /scratch/esnitkin_root/esnitkin/apirani/Project_VRE_metagenomics_analysis/2021_06_25_LDV_Simulation/Simulated_data/Part1/0.5perc/A_R2_001.fastq.gz
+    output: trimmed/A_R1_001.fastq.gz, trimmed/A_R2_001.fastq.gz, trimmed/A_R1_unpaired.fastq.gz, trimmed/A_R2_unpaired.fastq.gz
+    log: logs/trimmomatic/A.log
+    jobid: 4
+    wildcards: sample=A
+    resources: tmpdir=/tmp
+
+
+[Thu Jul 22 13:42:30 2021]
+rule bowtie2Build:
+    input: resources/Aus0004.fasta
+    output: resources/Aus0004.fasta.1.bt2, resources/Aus0004.fasta.2.bt2, resources/Aus0004.fasta.3.bt2, resources/Aus0004.fasta.4.bt2, resources/Aus0004.fasta.rev.1.bt2, resources/Aus0004.fasta.rev.2.bt2
+    jobid: 5
+    resources: tmpdir=/tmp
+
+
+[Thu Jul 22 13:42:30 2021]
+rule samtools_faidx:
+    input: resources/Aus0004.fasta
+    output: resources/Aus0004.fasta.fai
+    jobid: 6
+    resources: tmpdir=/tmp
+
+[Thu Jul 22 13:42:30 2021]
+Finished job 6.
+1 of 7 steps (14%) done
+[Thu Jul 22 13:42:33 2021]
+Finished job 5.
+2 of 7 steps (29%) done
+[Thu Jul 22 13:46:58 2021]
+Finished job 4.
+3 of 7 steps (43%) done
+Select jobs to execute...
+
+[Thu Jul 22 13:46:58 2021]
+rule bowtie2Align:
+    input: trimmed/A_R1_001.fastq.gz, trimmed/A_R2_001.fastq.gz, trimmed/A_R1_unpaired.fastq.gz, trimmed/A_R2_unpaired.fastq.gz, resources/Aus0004.fasta.1.bt2
+    output: mapped/A_aln.sam, mapped/A_aln.bam, mapped/A_aln_sort.bam
+    log: logs/bowtie2/A.log
+    jobid: 3
+    wildcards: sample=A
+    threads: 4
+    resources: tmpdir=/tmp
+
+Removing temporary output file mapped/A_aln.sam.
+Removing temporary output file mapped/A_aln.bam.
+[Thu Jul 22 13:48:53 2021]
+Finished job 3.
+4 of 7 steps (57%) done
+Select jobs to execute...
+
+[Thu Jul 22 13:48:53 2021]
+rule GATK_MarkDuplicates:
+    input: mapped/A_aln_sort.bam
+    output: DedupReads/A_aln_marked.bam, DedupReads/A_marked_dup_metrics.txt
+    log: logs/gatk/A_GATK_MarkDuplicates.log
+    jobid: 2
+    wildcards: sample=A
+    resources: tmpdir=/tmp
+
+[Thu Jul 22 13:49:48 2021]
+Finished job 2.
+5 of 7 steps (71%) done
+Select jobs to execute...
+
+[Thu Jul 22 13:49:48 2021]
+rule freebayes:
+    input: DedupReads/A_aln_marked.bam, resources/Aus0004.fasta.fai, resources/Aus0004.fasta
+    output: freebayes/A_raw.vcf
+    log: logs/freebayes/A_freebayes.log
+    jobid: 1
+    wildcards: sample=A
+    resources: tmpdir=/tmp
+
+[Thu Jul 22 13:49:49 2021]
+Finished job 1.
+6 of 7 steps (86%) done
+Select jobs to execute...
+
+[Thu Jul 22 13:49:49 2021]
+localrule all:
+    input: freebayes/A_raw.vcf
+    jobid: 0
+    resources: tmpdir=/tmp
+
+[Thu Jul 22 13:49:49 2021]
+Finished job 0.
+7 of 7 steps (100%) done
+Complete log: /nfs/esnitkin/Github/samosa/.snakemake/log/2021-07-22T134229.196491.snakemake.log

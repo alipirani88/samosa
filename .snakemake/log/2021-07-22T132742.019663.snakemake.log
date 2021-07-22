@@ -1,0 +1,36 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 4
+Rules claiming more threads will be scaled down.
+Job stats:
+job          count    min threads    max threads
+---------  -------  -------------  -------------
+all              1              1              1
+freebayes        1              1              1
+total            2              1              1
+
+Select jobs to execute...
+
+[Thu Jul 22 13:27:43 2021]
+rule freebayes:
+    input: DedupReads/A_aln_marked.bam, resources/Aus0004.fasta.fai
+    output: freebayes/A_raw.vcf
+    log: logs/freebayes/A_freebayes.log
+    jobid: 7
+    wildcards: sample=A
+    resources: tmpdir=/tmp
+
+[Thu Jul 22 13:27:45 2021]
+Error in rule freebayes:
+    jobid: 7
+    output: freebayes/A_raw.vcf
+    log: logs/freebayes/A_freebayes.log (check log file(s) for error message)
+    shell:
+        freebayes-parallel <(fasta_generate_regions.py resources/Aus0004.fasta.fai 100000) 4 -f $3 --haplotype-length 0 --min-alternate-count 1 --min-alternate-fraction 0 --pooled-continuous --report-monomorphic DedupReads/A_aln_marked.bam > freebayes/A_raw.vcf
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Removing output files of failed job freebayes since they might be corrupted:
+freebayes/A_raw.vcf
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /nfs/esnitkin/Github/samosa/.snakemake/log/2021-07-22T132742.019663.snakemake.log

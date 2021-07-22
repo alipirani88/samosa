@@ -9,17 +9,23 @@ SAMPLES = list(samples_df['sample'])
 
 rule all:
     input:
-        r1 = expand("trimmed/{sample}_R1_001.fastq.gz", sample=SAMPLES),
-        r2 = expand("trimmed/{sample}_R2_001.fastq.gz", sample=SAMPLES),
-        r1_unpaired = expand("trimmed/{sample}_R1_unpaired.fastq.gz", sample=SAMPLES),
-        r2_unpaired = expand("trimmed/{sample}_R2_unpaired.fastq.gz", sample=SAMPLES),
-        output1 = config["reference_path"] + ".1.bt2",
-        output2 = config["reference_path"] + ".2.bt2",
-        output3 = config["reference_path"] + ".3.bt2",
-        output4 = config["reference_path"] + ".4.bt2",
-        outputrev1 = config["reference_path"] + ".rev.1.bt2",
-        outputrev2 = config["reference_path"] + ".rev.2.bt2",
-        bamsortout=expand("mapped/{sample}_aln_sort.bam", sample=SAMPLES),
+        # r1 = expand("trimmed/{sample}_R1_001.fastq.gz", sample=SAMPLES),
+        # r2 = expand("trimmed/{sample}_R2_001.fastq.gz", sample=SAMPLES),
+        # r1_unpaired = expand("trimmed/{sample}_R1_unpaired.fastq.gz", sample=SAMPLES),
+        # r2_unpaired = expand("trimmed/{sample}_R2_unpaired.fastq.gz", sample=SAMPLES),
+        # output1 = config["reference_path"] + ".1.bt2",
+        # output2 = config["reference_path"] + ".2.bt2",
+        # output3 = config["reference_path"] + ".3.bt2",
+        # output4 = config["reference_path"] + ".4.bt2",
+        # outputrev1 = config["reference_path"] + ".rev.1.bt2",
+        # outputrev2 = config["reference_path"] + ".rev.2.bt2",
+        # bamsortout=expand("mapped/{sample}_aln_sort.bam", sample=SAMPLES),
+        # bamdedup=expand("DedupReads/{sample}_aln_marked.bam", sample=SAMPLES),
+        bamdedupindex=expand("DedupReads/{sample}_aln_marked.bam.bai", sample=SAMPLES),
+        samtoolsreferenceindex = config["reference_path"] + ".fai",
+        rawvcf=expand("freebayes/{sample}_raw.vcf", sample=SAMPLES),
+        #refbase=(config["reference_path"]).replace('.fasta', '.dict'),
+
 rule trimmomatic_pe:
     input:
         r1 = config["fastq_dir"] + "/{sample}_R1_001.fastq.gz",
@@ -84,3 +90,45 @@ rule bowtie2Align:
     threads: 8  # Use at least two threads
     shell:
         "bowtie2 -x {params.index} -1 {input.r1} -2 {input.r2} -U {input.r1_unpaired} -U {input.r2_unpaired} -S {output.samout} -t -p 8 --non-deterministic --end-to-end --rg-id {params.rgid} --rg SM:{params.rgSM} --rg LB:1 --rg PL:Illumina && samtools view -Sb {output.samout} > {output.bamout} && samtools sort -O BAM -o {output.bamsortout} {output.bamout}"
+
+
+rule GATK_MarkDuplicates:
+    input:
+        bamsortout="mapped/{sample}_aln_sort.bam",
+    output:
+        bamdedup="DedupReads/{sample}_aln_marked.bam",
+        bamdedupmetrics="DedupReads/{sample}_marked_dup_metrics.txt",
+    log:
+        "logs/gatk/{sample}_GATK_MarkDuplicates.log"
+    shell:
+        "picard MarkDuplicates REMOVE_DUPLICATES=true I={input.bamsortout} O={output.bamdedup} M={output.bamdedupmetrics} 2>{log}"
+
+rule samtools_index:
+    input:
+        bamdedup = "DedupReads/{sample}_aln_marked.bam",
+    output:
+        bamdedupindex = "DedupReads/{sample}_aln_marked.bam.bai",
+    log:
+        "logs/samtools/{sample}_samtools.log"
+    shell:
+        "samtools index {input.bamdedup}"
+
+rule samtools_faidx:
+    input:
+        config["reference_path"],
+    output:
+        samtoolsreferenceindex = config["reference_path"] + ".fai",
+    shell:
+        "samtools faidx {input}"
+
+rule freebayes:
+    input:
+        bamdedup = "DedupReads/{sample}_aln_marked.bam",
+        samtoolsreferenceindex = config["reference_path"] + ".fai",
+        reference=config["reference_path"],
+    output:
+        rawvcf="freebayes/{sample}_raw.vcf",
+    log:
+        "logs/freebayes/{sample}_freebayes.log"
+    shell:
+        "freebayes-parallel <(fasta_generate_regions.py {input.samtoolsreferenceindex} 100000) 4 -f {input.reference} --haplotype-length 0 --min-alternate-count 1 --min-alternate-fraction 0 --pooled-continuous --report-monomorphic {input.bamdedup} > {output.rawvcf}"

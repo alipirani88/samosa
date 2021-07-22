@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 10 of /nfs/esnitkin/Github/samosa/workflow/Snakefile:
+Missing input files for rule all:
+resources/Aus0004.fasta.fai
