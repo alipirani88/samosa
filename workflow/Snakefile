@@ -13,6 +13,10 @@ rule all:
         samtoolsreferenceindex = config["reference_path"] + ".fai",
         rawvcf=expand("freebayes/{sample}_raw.vcf", sample=SAMPLES),
 
+# delete everything so we can re-run things
+rule clean:
+    shell: 'rm -r trimmed/* freebayes/* mapped/* DedupReads/*'
+
 
 # Add Modular rules
 include: "rules/trim.smk"

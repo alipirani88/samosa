@@ -1,6 +1,7 @@
 rule freebayes:
     input:
         bamdedup = "DedupReads/{sample}_aln_marked.bam",
+        bamdedupbai = "DedupReads/{sample}_aln_marked.bam.bai",
         samtoolsreferenceindex = config["reference_path"] + ".fai",
         reference=config["reference_path"],
     output:

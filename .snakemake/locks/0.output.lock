@@ -1,7 +1,0 @@
-mapped/A_aln.sam
-mapped/A_aln.bam
-mapped/A_aln_sort.bam
-freebayes/A_raw.vcf
-DedupReads/A_aln_marked.bam.bai
-DedupReads/A_aln_marked.bam
-DedupReads/A_marked_dup_metrics.txt

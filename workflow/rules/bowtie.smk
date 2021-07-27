@@ -21,6 +21,7 @@ rule bowtie2Align:
         r1_unpaired = "trimmed/{sample}_R1_unpaired.fastq.gz",
         r2_unpaired = "trimmed/{sample}_R2_unpaired.fastq.gz",
         indexoutput1=config["reference_path"] + ".1.bt2",
+
     output:
         samout=temp('mapped/{sample}_aln.sam'),
         bamout=temp('mapped/{sample}_aln.bam'),
@@ -30,8 +31,11 @@ rule bowtie2Align:
         "logs/bowtie2/{sample}.log"
     params:
         index=config["reference_path"],  # prefix of reference genome index (built with bowtie2-build)
-        rgid=expand("{sample}", sample=SAMPLES),
-        rgSM=expand("{sample}", sample=SAMPLES),
+        # rgid=expand("{sample}", sample=SAMPLES),
+        # rgSM=expand("{sample}", sample=SAMPLES),
+        # rgid={sample},
+        # rgSM={sample},
     threads: 8  # Use at least two threads
     shell:
-        "bowtie2 -x {params.index} -1 {input.r1} -2 {input.r2} -U {input.r1_unpaired} -U {input.r2_unpaired} -S {output.samout} -t -p 8 --non-deterministic --end-to-end --rg-id {params.rgid} --rg SM:{params.rgSM} --rg LB:1 --rg PL:Illumina && samtools view -Sb {output.samout} > {output.bamout} && samtools sort -O BAM -o {output.bamsortout} {output.bamout}"
+        # "bowtie2 -x {params.index} -1 {input.r1} -2 {input.r2} -U {input.r1_unpaired} -U {input.r2_unpaired} -S {output.samout} -t -p 8 --non-deterministic --end-to-end --rg-id {params.rgid} --rg SM:{params.rgSM} --rg LB:1 --rg PL:Illumina && samtools view -Sb {output.samout} > {output.bamout} && samtools sort -O BAM -o {output.bamsortout} {output.bamout}"
+        "bowtie2 -x {params.index} -1 {input.r1} -2 {input.r2} -U {input.r1_unpaired} -U {input.r2_unpaired} -S {output.samout} -t -p 8 --non-deterministic --end-to-end && samtools view -Sb {output.samout} > {output.bamout} && samtools sort -O BAM -o {output.bamsortout} {output.bamout}"
