@@ -1,0 +1,95 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 4
+Rules claiming more threads will be scaled down.
+Job stats:
+job                     count    min threads    max threads
+--------------------  -------  -------------  -------------
+GATK_DepthofCoverage        2              1              1
+all                         1              1              1
+freebayes                   2              1              1
+total                       5              1              1
+
+Select jobs to execute...
+
+[Wed Jul 28 10:41:30 2021]
+rule freebayes:
+    input: DedupReads/B_aln_marked.bam, DedupReads/B_aln_marked.bam.bai, resources/Aus0004.fasta.fai, resources/Aus0004.fasta
+    output: freebayes/B_raw.vcf
+    log: logs/freebayes/B_freebayes.log
+    jobid: 15
+    wildcards: sample=B
+    resources: tmpdir=/tmp
+
+
+[Wed Jul 28 10:41:30 2021]
+rule GATK_DepthofCoverage:
+    input: DedupReads/A_aln_marked.bam, resources/Aus0004.fasta, resources/Aus0004.dict
+    output: DedupReads/A_depth_of_coverage
+    log: logs/gatk/A_GATK_DepthofCoverage.log
+    jobid: 11
+    wildcards: sample=A
+    resources: tmpdir=/tmp
+
+
+[Wed Jul 28 10:41:30 2021]
+rule GATK_DepthofCoverage:
+    input: DedupReads/B_aln_marked.bam, resources/Aus0004.fasta, resources/Aus0004.dict
+    output: DedupReads/B_depth_of_coverage
+    log: logs/gatk/B_GATK_DepthofCoverage.log
+    jobid: 13
+    wildcards: sample=B
+    resources: tmpdir=/tmp
+
+
+[Wed Jul 28 10:41:30 2021]
+rule freebayes:
+    input: DedupReads/A_aln_marked.bam, DedupReads/A_aln_marked.bam.bai, resources/Aus0004.fasta.fai, resources/Aus0004.fasta
+    output: freebayes/A_raw.vcf
+    log: logs/freebayes/A_freebayes.log
+    jobid: 14
+    wildcards: sample=A
+    resources: tmpdir=/tmp
+
+[Wed Jul 28 10:41:32 2021]
+[Wed Jul 28 10:41:32 2021]
+Error in rule GATK_DepthofCoverage:
+Error in rule GATK_DepthofCoverage:
+    jobid: 13
+    jobid: 11
+    output: DedupReads/B_depth_of_coverage
+    output: DedupReads/A_depth_of_coverage
+    log: logs/gatk/B_GATK_DepthofCoverage.log (check log file(s) for error message)
+    log: logs/gatk/A_GATK_DepthofCoverage.log (check log file(s) for error message)
+    shell:
+        java -Xmx5G -jar ./bin/GenomeAnalysisTK.jar -T DepthOfCoverage -R resources/Aus0004.fasta -o DedupReads/B_depth_of_coverage -I DedupReads/B_aln_marked.bam --summaryCoverageThreshold 1 --summaryCoverageThreshold 2 --summaryCoverageThreshold 3 --summaryCoverageThreshold 4 --summaryCoverageThreshold 5 --summaryCoverageThreshold 6 --summaryCoverageThreshold 7 --summaryCoverageThreshold 8 --summaryCoverageThreshold 9 --summaryCoverageThreshold 10 --summaryCoverageThreshold 15 --summaryCoverageThreshold 20 --summaryCoverageThreshold 25 --ignoreDeletionSites 2>logs/gatk/B_GATK_DepthofCoverage.log
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    shell:
+        java -Xmx5G -jar ./bin/GenomeAnalysisTK.jar -T DepthOfCoverage -R resources/Aus0004.fasta -o DedupReads/A_depth_of_coverage -I DedupReads/A_aln_marked.bam --summaryCoverageThreshold 1 --summaryCoverageThreshold 2 --summaryCoverageThreshold 3 --summaryCoverageThreshold 4 --summaryCoverageThreshold 5 --summaryCoverageThreshold 6 --summaryCoverageThreshold 7 --summaryCoverageThreshold 8 --summaryCoverageThreshold 9 --summaryCoverageThreshold 10 --summaryCoverageThreshold 15 --summaryCoverageThreshold 20 --summaryCoverageThreshold 25 --ignoreDeletionSites 2>logs/gatk/A_GATK_DepthofCoverage.log
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+
+Terminating processes on user request, this might take some time.
+[Wed Jul 28 10:41:42 2021]
+Error in rule freebayes:
+[Wed Jul 28 10:41:42 2021]
+    jobid: 14
+Error in rule freebayes:
+    output: freebayes/A_raw.vcf
+    jobid: 15
+    log: logs/freebayes/A_freebayes.log (check log file(s) for error message)
+    output: freebayes/B_raw.vcf
+    shell:
+        freebayes-parallel <(fasta_generate_regions.py resources/Aus0004.fasta.fai 100000) 4 -f resources/Aus0004.fasta --haplotype-length 0 --min-alternate-count 1 --min-alternate-fraction 0 --pooled-continuous --report-monomorphic DedupReads/A_aln_marked.bam > freebayes/A_raw.vcf
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+    log: logs/freebayes/B_freebayes.log (check log file(s) for error message)
+
+    shell:
+        freebayes-parallel <(fasta_generate_regions.py resources/Aus0004.fasta.fai 100000) 4 -f resources/Aus0004.fasta --haplotype-length 0 --min-alternate-count 1 --min-alternate-fraction 0 --pooled-continuous --report-monomorphic DedupReads/B_aln_marked.bam > freebayes/B_raw.vcf
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Removing output files of failed job freebayes since they might be corrupted:
+freebayes/A_raw.vcf
+Removing output files of failed job freebayes since they might be corrupted:
+freebayes/B_raw.vcf
+Complete log: /nfs/esnitkin/Github/samosa/.snakemake/log/2021-07-28T104129.606715.snakemake.log

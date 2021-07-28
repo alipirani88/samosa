@@ -1,0 +1,4 @@
+Building DAG of jobs...
+WildcardError in line 12 of /nfs/esnitkin/Github/samosa/workflow/rules/gatk.smk:
+Wildcards in input files cannot be determined from output files:
+'sample'

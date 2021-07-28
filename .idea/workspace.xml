@@ -10,15 +10,90 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="126">
-                <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+              <first_editor relative-caret-position="147">
+                <caret line="5" selection-start-line="5" selection-end-line="5" />
               </first_editor>
               <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bowtie.smk" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/workflow/rules/bowtie.smk">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="711">
+              <caret line="35" selection-start-line="35" selection-end-line="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="samtools.smk" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/workflow/rules/samtools.smk">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="84">
+              <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ref.smk" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/workflow/rules/ref.smk">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="336">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gatk.smk" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/workflow/rules/gatk.smk">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="819">
+              <caret line="32" column="608" selection-start-line="32" selection-start-column="608" selection-end-line="32" selection-end-column="608" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="extract_freebayes_freq.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bin/extract_freebayes_freq.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1271">
+              <caret line="289" column="120" selection-start-line="289" selection-start-column="120" selection-end-line="289" selection-end-column="120" />
+              <folding>
+                <element signature="e#0#31#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="trim.smk" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/workflow/rules/trim.smk">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="freebayes.smk" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/workflow/rules/freebayes.smk">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="147">
+              <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Snakefile" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/workflow/Snakefile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="525">
+              <caret line="25" column="19" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -28,6 +103,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>fastq_dir</find>
+      <find>print &quot;</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -45,21 +121,24 @@
         <option value="$PROJECT_DIR$/workflow/rules/common.smk" />
         <option value="$PROJECT_DIR$/workflow/rules/qc.smk" />
         <option value="$PROJECT_DIR$/config/config.yaml" />
-        <option value="$PROJECT_DIR$/workflow/rules/ref.smk" />
-        <option value="$PROJECT_DIR$/workflow/rules/trim.smk" />
         <option value="$PROJECT_DIR$/workflow/rules/gatk" />
-        <option value="$PROJECT_DIR$/workflow/rules/samtools.smk" />
-        <option value="$PROJECT_DIR$/workflow/rules/bowtie.smk" />
-        <option value="$PROJECT_DIR$/workflow/rules/freebayes.smk" />
-        <option value="$PROJECT_DIR$/workflow/Snakefile" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/workflow/rules/trim.smk" />
+        <option value="$PROJECT_DIR$/workflow/rules/samtools.smk" />
+        <option value="$PROJECT_DIR$/workflow/rules/ref.smk" />
+        <option value="$PROJECT_DIR$/workflow/rules/freebayes.smk" />
+        <option value="$PROJECT_DIR$/bin/extract_freebayes_freq.py" />
+        <option value="$PROJECT_DIR$/workflow/rules/bowtie.smk" />
+        <option value="$PROJECT_DIR$/workflow/Snakefile" />
+        <option value="$PROJECT_DIR$/workflow/rules/gatk.smk" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="25" />
-    <option name="width" value="1440" />
-    <option name="height" value="786" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="405" />
+    <option name="y" value="83" />
+    <option name="width" value="2011" />
+    <option name="height" value="1188" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -67,12 +146,18 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="samosa" type="b2602c69:ProjectViewProjectNode" />
               <item name="samosa" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="samosa" type="b2602c69:ProjectViewProjectNode" />
+              <item name="samosa" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="samosa" type="b2602c69:ProjectViewProjectNode" />
@@ -89,7 +174,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -122,10 +206,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="25" width="2559" height="1325" extended-state="6" />
+    <frame x="405" y="83" width="2011" height="1188" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.108859755" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14068055" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="R Packages" order="3" />
       <window_info anchor="right" id="R Graphics" order="3" />
@@ -150,6 +234,44 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="105">
+            <caret line="5" selection-start-line="5" selection-end-line="5" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workflow/rules/bowtie.smk">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="40" column="168" selection-start-line="40" selection-start-column="168" selection-end-line="40" selection-end-column="168" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workflow/rules/gatk.smk">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="16" column="67" lean-forward="true" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workflow/rules/freebayes.smk">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="43" lean-forward="true" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workflow/Snakefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="13" column="91" selection-start-line="13" selection-start-column="91" selection-end-line="13" selection-end-column="91" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/workflow/Snakefile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
@@ -257,57 +379,74 @@
     <entry file="file://$PROJECT_DIR$/config/units.tsv" />
     <entry file="file://$PROJECT_DIR$/workflow/rules/common.smk" />
     <entry file="file://$PROJECT_DIR$/workflow/rules/qc.smk" />
-    <entry file="file://$PROJECT_DIR$/workflow/rules/ref.smk">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="15" selection-start-line="2" selection-end-line="15" />
+    <entry file="file://$PROJECT_DIR$/config/config.yaml" />
+    <entry file="file://$PROJECT_DIR$/workflow/rules/gatk" />
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="147">
+            <caret line="5" selection-start-line="5" selection-end-line="5" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/config.yaml" />
     <entry file="file://$PROJECT_DIR$/workflow/rules/trim.smk">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="25" column="394" selection-start-line="25" selection-start-column="394" selection-end-line="25" selection-end-column="394" />
+        <state relative-caret-position="189">
+          <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/workflow/rules/gatk" />
     <entry file="file://$PROJECT_DIR$/workflow/rules/samtools.smk">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="16" column="32" selection-start-line="16" selection-start-column="32" selection-end-line="16" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/workflow/rules/bowtie.smk">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="882">
-          <caret line="40" column="168" selection-start-line="40" selection-start-column="168" selection-end-line="40" selection-end-column="168" />
+        <state relative-caret-position="84">
+          <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/workflow/rules/freebayes.smk">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="5" column="43" selection-start-line="5" selection-start-column="43" selection-end-line="5" selection-end-column="43" />
+        <state relative-caret-position="147">
+          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/extract_freebayes_freq.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1271">
+          <caret line="289" column="120" selection-start-line="289" selection-start-column="120" selection-end-line="289" selection-end-column="120" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workflow/rules/ref.smk">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workflow/rules/bowtie.smk">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="711">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/workflow/Snakefile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="17" column="61" selection-start-line="17" selection-start-column="61" selection-end-line="17" selection-end-column="61" />
+        <state relative-caret-position="525">
+          <caret line="25" column="19" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="126">
-            <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-          </first_editor>
-          <second_editor />
+    <entry file="file://$PROJECT_DIR$/workflow/rules/gatk.smk">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="819">
+          <caret line="32" column="608" selection-start-line="32" selection-start-column="608" selection-end-line="32" selection-end-column="608" />
         </state>
       </provider>
     </entry>

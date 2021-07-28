@@ -1,0 +1,5 @@
+Building DAG of jobs...
+MissingInputException in line 11 of /nfs/esnitkin/Github/samosa/workflow/Snakefile:
+Missing input files for rule all:
+DedupReads/B_depth_of_coverage
+DedupReads/A_depth_of_coverage

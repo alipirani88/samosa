@@ -1,0 +1,3 @@
+SyntaxError in line 32 of /nfs/esnitkin/Github/samosa/workflow/rules/gatk.smk:
+Command must be given as string after the shell keyword. (gatk.smk, line 32)
+  File "/nfs/esnitkin/Github/samosa/workflow/Snakefile", line 27, in <module>

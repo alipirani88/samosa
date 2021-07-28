@@ -1,0 +1,50 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 4
+Rules claiming more threads will be scaled down.
+Job stats:
+job          count    min threads    max threads
+---------  -------  -------------  -------------
+all              1              1              1
+freebayes        2              1              1
+total            3              1              1
+
+Select jobs to execute...
+
+[Wed Jul 28 14:11:23 2021]
+rule freebayes:
+    input: results/DedupReads/B_aln_marked.bam, results/DedupReads/B_aln_marked.bam.bai, resources/Aus0004.fasta.fai, resources/Aus0004.fasta
+    output: results/freebayes/B_raw.vcf
+    log: logs/freebayes/B_freebayes.log
+    jobid: 12
+    wildcards: sample=B
+    resources: tmpdir=/tmp
+
+
+[Wed Jul 28 14:11:23 2021]
+rule freebayes:
+    input: results/DedupReads/A_aln_marked.bam, results/DedupReads/A_aln_marked.bam.bai, resources/Aus0004.fasta.fai, resources/Aus0004.fasta
+    output: results/freebayes/A_raw.vcf
+    log: logs/freebayes/A_freebayes.log
+    jobid: 11
+    wildcards: sample=A
+    resources: tmpdir=/tmp
+
+[Wed Jul 28 14:13:26 2021]
+Finished job 12.
+1 of 3 steps (33%) done
+[Wed Jul 28 14:13:52 2021]
+Finished job 11.
+2 of 3 steps (67%) done
+Select jobs to execute...
+
+[Wed Jul 28 14:13:53 2021]
+localrule all:
+    input: results/DedupReads/A_aln_marked.bam.bai, results/DedupReads/B_aln_marked.bam.bai, resources/Aus0004.fasta.fai, results/freebayes/A_raw.vcf, results/freebayes/B_raw.vcf
+    jobid: 0
+    resources: tmpdir=/tmp
+
+[Wed Jul 28 14:13:53 2021]
+Finished job 0.
+3 of 3 steps (100%) done
+Complete log: /nfs/esnitkin/Github/samosa/.snakemake/log/2021-07-28T141121.680000.snakemake.log

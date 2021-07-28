@@ -1,8 +1,8 @@
 rule samtools_index:
     input:
-        bamdedup = "DedupReads/{sample}_aln_marked.bam",
+        bamdedup = "results/DedupReads/{sample}_aln_marked.bam",
     output:
-        bamdedupindex = "DedupReads/{sample}_aln_marked.bam.bai",
+        bamdedupindex = "results/DedupReads/{sample}_aln_marked.bam.bai",
     log:
         "logs/samtools/{sample}_samtools.log"
     shell:

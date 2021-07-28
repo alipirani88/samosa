@@ -1,0 +1,36 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 36
+Rules claiming more threads will be scaled down.
+Job stats:
+job                    count    min threads    max threads
+-------------------  -------  -------------  -------------
+GATK_MarkDuplicates        2              1              1
+all                        1              1              1
+bowtie2Align               2              8              8
+freebayes                  2              1              1
+samtools_index             2              1              1
+trimmomatic_pe             2              1              1
+total                     11              1              8
+
+Select jobs to execute...
+
+[Wed Jul 28 11:19:36 2021]
+rule trimmomatic_pe:
+    input: /scratch/esnitkin_root/esnitkin/apirani/Project_VRE_metagenomics_analysis/2021_06_25_LDV_Simulation/Simulated_data/test_data/B_R1_001.fastq.gz, /scratch/esnitkin_root/esnitkin/apirani/Project_VRE_metagenomics_analysis/2021_06_25_LDV_Simulation/Simulated_data/test_data/B_R2_001.fastq.gz
+    output: results/trimmed/B_R1_001.fastq.gz, results/trimmed/B_R2_001.fastq.gz, results/trimmed/B_R1_unpaired.fastq.gz, results/trimmed/B_R2_unpaired.fastq.gz
+    log: logs/trimmomatic/B.log
+    jobid: 9
+    wildcards: sample=B
+    resources: tmpdir=/tmp
+
+
+[Wed Jul 28 11:19:36 2021]
+rule trimmomatic_pe:
+    input: /scratch/esnitkin_root/esnitkin/apirani/Project_VRE_metagenomics_analysis/2021_06_25_LDV_Simulation/Simulated_data/test_data/A_R1_001.fastq.gz, /scratch/esnitkin_root/esnitkin/apirani/Project_VRE_metagenomics_analysis/2021_06_25_LDV_Simulation/Simulated_data/test_data/A_R2_001.fastq.gz
+    output: results/trimmed/A_R1_001.fastq.gz, results/trimmed/A_R2_001.fastq.gz, results/trimmed/A_R1_unpaired.fastq.gz, results/trimmed/A_R2_unpaired.fastq.gz
+    log: logs/trimmomatic/A.log
+    jobid: 4
+    wildcards: sample=A
+    resources: tmpdir=/tmp
+

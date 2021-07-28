@@ -5,17 +5,22 @@ import pandas as pd
 
 samples_df = pd.read_table(config["samples"]).set_index("sample", drop=False)
 SAMPLES = list(samples_df['sample'])
-
+reference_path = config["reference_path"]
+reference_seqdict = reference_path.replace('.fasta', '.dict')
 
 rule all:
     input:
-        bamdedupindex=expand("DedupReads/{sample}_aln_marked.bam.bai", sample=SAMPLES),
+        bamdedupindex=expand("results/DedupReads/{sample}_aln_marked.bam.bai", sample=SAMPLES),
         samtoolsreferenceindex = config["reference_path"] + ".fai",
-        rawvcf=expand("freebayes/{sample}_raw.vcf", sample=SAMPLES),
+        # ref_seqdict=reference_seqdict,
+        # rgid=expand("{sample}", sample=SAMPLES),
+        # rgsm=expand("{sample}", sample=SAMPLES),
+        rawvcf=expand("results/freebayes/{sample}_raw.vcf", sample=SAMPLES),
+        gatk_depth_summary=expand("results/DedupReads/{sample}_depth_of_coverage", sample=SAMPLES),
 
 # delete everything so we can re-run things
 rule clean:
-    shell: 'rm -r trimmed/* freebayes/* mapped/* DedupReads/*'
+    shell: 'rm -r results/trimmed/* results/freebayes/* results/mapped/* results/DedupReads/*'
 
 
 # Add Modular rules

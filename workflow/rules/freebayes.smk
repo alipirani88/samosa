@@ -1,11 +1,11 @@
 rule freebayes:
     input:
-        bamdedup = "DedupReads/{sample}_aln_marked.bam",
-        bamdedupbai = "DedupReads/{sample}_aln_marked.bam.bai",
+        bamdedup = "results/DedupReads/{sample}_aln_marked.bam",
+        bamdedupbai = "results/DedupReads/{sample}_aln_marked.bam.bai",
         samtoolsreferenceindex = config["reference_path"] + ".fai",
         reference=config["reference_path"],
     output:
-        rawvcf="freebayes/{sample}_raw.vcf",
+        rawvcf="results/freebayes/{sample}_raw.vcf",
     log:
         "logs/freebayes/{sample}_freebayes.log"
     shell:
