@@ -1,5 +1,0 @@
-Building DAG of jobs...
-MissingInputException in line 16 of /nfs/esnitkin/Github/samosa/workflow/rules/bowtie.smk:
-Missing input files for rule bowtie2Align:
-A
-B

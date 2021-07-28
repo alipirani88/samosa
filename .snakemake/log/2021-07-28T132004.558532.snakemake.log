@@ -1,3 +1,0 @@
-SyntaxError in line 25 of /nfs/esnitkin/Github/samosa/workflow/rules/bowtie.smk:
-invalid syntax
-  File "/nfs/esnitkin/Github/samosa/workflow/Snakefile", line 30, in <module>

@@ -1,2 +1,0 @@
-SyntaxError in line 96 of /nfs/esnitkin/Github/samosa/workflow/Snakefile:
-Unexpected keyword bamdedup in rule definition (Snakefile, line 96)

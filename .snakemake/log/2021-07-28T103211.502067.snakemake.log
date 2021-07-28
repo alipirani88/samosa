@@ -1,4 +1,0 @@
-SyntaxError:
-Not all output, log and benchmark files of rule GATK_DepthofCoverage contain the same wildcards. This is crucial though, in order to avoid that two or more jobs write to the same file.
-  File "/nfs/esnitkin/Github/samosa/workflow/Snakefile", line 26, in <module>
-  File "/nfs/esnitkin/Github/samosa/workflow/rules/gatk.smk", line 22, in <module>

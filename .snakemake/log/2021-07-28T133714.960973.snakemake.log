@@ -1,4 +1,0 @@
-NameError in line 24 of /nfs/esnitkin/Github/samosa/workflow/rules/bowtie.smk:
-name 'rgid' is not defined
-  File "/nfs/esnitkin/Github/samosa/workflow/Snakefile", line 32, in <module>
-  File "/nfs/esnitkin/Github/samosa/workflow/rules/bowtie.smk", line 24, in <module>

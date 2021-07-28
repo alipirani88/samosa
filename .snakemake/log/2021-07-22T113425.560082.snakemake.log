@@ -1,4 +1,0 @@
-Building DAG of jobs...
-MissingInputException in line 53 of /nfs/esnitkin/Github/samosa/workflow/Snakefile:
-Missing input files for rule bowtie2Build:
-resources/Aus0004.fasta
