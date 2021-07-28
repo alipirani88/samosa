@@ -53,8 +53,8 @@
       <file leaf-file-name="gatk.smk" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/workflow/rules/gatk.smk">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="819">
-              <caret line="32" column="608" selection-start-line="32" selection-start-column="608" selection-end-line="32" selection-end-column="608" />
+            <state relative-caret-position="765">
+              <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -83,8 +83,8 @@
       <file leaf-file-name="freebayes.smk" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/workflow/rules/freebayes.smk">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
+            <state relative-caret-position="63">
+              <caret line="3" column="71" lean-forward="true" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="71" />
             </state>
           </provider>
         </entry>
@@ -92,8 +92,8 @@
       <file leaf-file-name="Snakefile" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/workflow/Snakefile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="25" column="19" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
+            <state relative-caret-position="399">
+              <caret line="19" column="57" selection-start-line="19" selection-start-column="57" selection-end-line="19" selection-end-column="57" />
             </state>
           </provider>
         </entry>
@@ -405,13 +405,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/workflow/rules/freebayes.smk">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bin/extract_freebayes_freq.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1271">
@@ -438,15 +431,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/workflow/Snakefile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="25" column="19" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
+        <state relative-caret-position="399">
+          <caret line="19" column="57" selection-start-line="19" selection-start-column="57" selection-end-line="19" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workflow/rules/freebayes.smk">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="3" column="71" lean-forward="true" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="71" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/workflow/rules/gatk.smk">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="819">
-          <caret line="32" column="608" selection-start-line="32" selection-start-column="608" selection-end-line="32" selection-end-column="608" />
+        <state relative-caret-position="765">
+          <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
         </state>
       </provider>
     </entry>
