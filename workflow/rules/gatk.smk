@@ -42,8 +42,23 @@ rule GATK_HaplotypeCaller:
         bamdedupbai = "results/DedupReads/{sample}_aln_marked.bam.bai",
 
     output:
-        gatk_vcf="results/gatk/{sample}_raw.vcf",
+        gatk_vcf="results/gatk/{sample}_HaplotypeCaller_raw.vcf",
     log:
         "logs/gatk/{sample}_GATK_HaplotypeCaller.log"
     shell:
-        "java -Xmx5G -jar /nfs/esnitkin/bin_group/gatk-4.2.0.0/gatk-package-4.2.0.0-local.jar HaplotypeCaller -R {input.reference} -O {output.gatk_vcf} -I {input.bamdedup} 2>{log}"
+        "java -Xmx5G -jar /nfs/esnitkin/bin_group/gatk-4.2.0.0/gatk-package-4.2.0.0-local.jar HaplotypeCaller -R {input.reference} -O {output.gatk_vcf} -I {input.bamdedup} -ploidy 1 --annotate-with-num-discovered-alleles true --output-mode EMIT_ALL_CONFIDENT_SITES 2>{log}"
+
+rule GATK_Mutect2:
+    input:
+        bamdedup = "results/DedupReads/{sample}_aln_marked.bam",
+        reference=config["reference_path"],
+        ref_seqdict=reference_seqdict,
+        bamdedupbai = "results/DedupReads/{sample}_aln_marked.bam.bai",
+
+    output:
+        gatk_mutect_vcf="results/gatk_mutect/{sample}_Mutect_raw.vcf",
+        #gatk_mutect_alleles_vcf="results/gatk_mutect/{sample}_Mutect_alleles.vcf",
+    log:
+        "logs/gatk/{sample}_GATK_Mutect.log"
+    shell:
+        "java -Xmx5G -jar /nfs/esnitkin/bin_group/gatk-4.2.0.0/gatk-package-4.2.0.0-local.jar Mutect2 -R {input.reference} -O {output.gatk_mutect_vcf} -I {input.bamdedup} -af-of-alleles-not-in-resource 0.33 --annotation-group AlleleSpecificAnnotation 2>{log}"
