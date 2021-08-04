@@ -1,0 +1,7 @@
+name: samosa
+channels:
+  - bioconda
+  - defaults
+  - r
+prefix: /home/apirani/.conda/envs/samosa
+

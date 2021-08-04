@@ -9,4 +9,4 @@ rule freebayes:
     log:
         "logs/freebayes/{sample}_freebayes.log"
     shell:
-        "freebayes-parallel <(fasta_generate_regions.py {input.samtoolsreferenceindex} 100000) 4 -f {input.reference} --haplotype-length 0 --min-alternate-count 1 --min-alternate-fraction 0 --pooled-continuous --report-monomorphic {input.bamdedup} > {output.rawvcf}"
+        "freebayes-parallel <(fasta_generate_regions.py {input.samtoolsreferenceindex} 100000) 4 -f {input.reference} --min-alternate-count 2 --min-alternate-fraction 0 --ploidy 1 --pooled-continuous --report-monomorphic {input.bamdedup} > {output.rawvcf}"
