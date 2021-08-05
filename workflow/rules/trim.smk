@@ -1,13 +1,13 @@
 rule trimmomatic_pe:
     input:
-        r1 = config["fastq_dir"] + "/{sample}_R1_001.fastq.gz",
-        r2 = config["fastq_dir"] + "/{sample}_R2_001.fastq.gz"
+        r1 = "results/Clean_Human_removed/{sample}_paired_1.fastq.gz",
+        r2 = "results/Clean_Human_removed/{sample}_paired_2.fastq.gz",
     output:
         r1 = "results/trimmed/{sample}_R1_001.fastq.gz",
         r2 = "results/trimmed/{sample}_R2_001.fastq.gz",
         # reads where trimming entirely removed the mate
         r1_unpaired = "results/trimmed/{sample}_R1_unpaired.fastq.gz",
-        r2_unpaired = "results/trimmed/{sample}_R2_unpaired.fastq.gz"
+        r2_unpaired = "results/trimmed/{sample}_R2_unpaired.fastq.gz",
     log:
         "logs/trimmomatic/{sample}.log"
     params:

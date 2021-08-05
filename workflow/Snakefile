@@ -28,6 +28,7 @@ rule clean:
 
 
 # Add Modular rules
+include: "rules/kneaddata.smk"
 include: "rules/trim.smk"
 include: "rules/bowtie.smk"
 include: "rules/gatk.smk"
