@@ -12,20 +12,12 @@ rule all:
     input:
         bamdedupindex=expand("results/DedupReads/{sample}_aln_marked.bam.bai", sample=SAMPLES),
         samtoolsreferenceindex = config["reference_path"] + ".fai",
-        # ref_seqdict=reference_seqdict,
-        # rgid=expand("{sample}", sample=SAMPLES),
-        # rgsm=expand("{sample}", sample=SAMPLES),
-        #rawvcf=expand("results/freebayes/{sample}_raw.vcf", sample=SAMPLES),
         gatk_depth_summary=expand("results/DedupReads/{sample}_depth_of_coverage", sample=SAMPLES),
-        #gatk_vcf=expand("results/gatk/{sample}_HaplotypeCaller_raw.vcf", sample=SAMPLES),
-        #gatk_mutect_vcf=expand("results/gatk_mutect/{sample}_Mutect_raw.vcf", sample=SAMPLES),
         mergedvcf=expand("results/MergedVCF/{sample}_all_merged.vcf", sample=SAMPLES),
-
 
 # delete everything so we can re-run things
 rule clean:
-    shell: 'rm -r results/trimmed/* results/freebayes/* results/mapped/* results/DedupReads/*'
-
+    shell: 'rm -r results/*'
 
 # Add Modular rules
 include: "rules/kneaddata.smk"
