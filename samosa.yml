@@ -1,7 +1,7 @@
-name: samosa
+name: snakemake-tutorial
 channels:
   - bioconda
   - defaults
   - r
-prefix: /home/apirani/.conda/envs/samosa
+prefix: /home/apirani/.conda/envs/snakemake-tutorial
 
