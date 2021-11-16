@@ -14,7 +14,6 @@ rule all:
         samtoolsreferenceindex = config["reference_path"] + ".fai",
         gatk_depth_summary=expand("results/DedupReads/{sample}_depth_of_coverage", sample=SAMPLES),
         mergedvcf=expand("results/MergedVCF/{sample}_all_merged.vcf", sample=SAMPLES),
-	instrain_out=expand("results/instrain/{sample}_instrain", sample=SAMPLES),
 
 # delete everything so we can re-run things
 rule clean:
@@ -27,4 +26,3 @@ include: "rules/bowtie.smk"
 include: "rules/gatk.smk"
 include: "rules/samtools.smk"
 include: "rules/freebayes.smk"
-include: "rules/instrain.smk"
