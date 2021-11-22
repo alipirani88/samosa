@@ -9,6 +9,7 @@ import subprocess
 from collections import OrderedDict
 from collections import defaultdict
 from collections import defaultdict
+import pandas as pd
 import glob
 import readline
 import pandas as pd
@@ -30,8 +31,8 @@ required.add_argument('-Freebayes_vcf', action='store', dest="Freebayes_vcf",
                       help='Freebayes VCF file')
 required.add_argument('-Mutect_vcf', action='store', dest="Mutect_vcf",
                       help='GATK Mutect2 VCF file')
-optional.add_argument('-coordinate_map', action='store', dest="coordinate_map",
-                      help='Genome coordiante map file generated with Crossmap')
+required.add_argument('-instrain_vcf', action='store', dest="instrain_vcf",
+                      help='instrain SNV file')
 args = parser.parse_args()
 
 
@@ -328,6 +329,289 @@ def extract_freebayes():
     fp.close()
     return freebayes_dict, freebayes_AF_dict
 
+def extract_instrain():
+    print ("LDV Position, Strain Position, Reference Allele, Reference Allele Frequency, ALT Allele, ALT Allele Frequency, REF allele Depth, ALT Allele Frequency")
+
+    LDV_abund_file = "%s" % args.instrain_vcf.replace('_raw.vcf', '_LDV_abund_frequency.csv')
+    fp = open(LDV_abund_file, 'w+')
+    #vcf = VCF('%s' % args.instrain_vcf)
+    fp.write("LDV Position, Strain Position, Reference Allele, Reference Allele Frequency, ALT Allele, ALT Allele Frequency, REF allele Depth, ALT Allele Depth\n")
+
+    instrain_single_allele_snp_count = 0
+    instrain_multi_allele_snp_count = 0
+    instrain_multi_snp_positions = []
+    instrain_dict = defaultdict(list)
+    instrain_AF_dict = {}
+
+    df = pd.read_csv("%s" % args.instrain_vcf, sep='\t', header=0, dtype=str)
+    for index, row in df.iterrows():
+        print row[0]
+
+    # for v in vcf:
+    #     #print v.POS
+    #     key = v.POS
+    #     if int(v.INFO.get('NUMALT')) == 0 and int(v.INFO.get('DP')) > 0:
+    #         ALT_allele = "."
+    #         Alt_allele_freq = 0
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = 0
+    #         #print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth, alt_allele_depth))
+    #         #fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth, alt_allele_depth))
+    #
+    #     elif int(v.INFO.get('NUMALT')) == 1 and int(v.INFO.get('DP')) > 0:
+    #         freebayes_single_allele_snp_count += 1
+    #         ALT_allele = v.ALT[0]
+    #         Alt_allele_freq = int(v.INFO.get('AO')) / int(v.INFO.get('DP'))
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = int(v.INFO.get('AO'))
+    #         #print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth, alt_allele_depth))
+    #         fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth, alt_allele_depth))
+    #         freebayes_dict[v.POS].append(ALT_allele)
+    #         freebayes_AF_dict[v.POS] = "%s,%s,%s,%s,%s,%s,%s,%s" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth, alt_allele_depth)
+    #
+    #     elif int(v.INFO.get('NUMALT')) == 2 and int(v.INFO.get('DP')) > 0:
+    #         # print ("NUMALT > 1")
+    #         # print (str(v.INFO.get('AO')[1]))
+    #         freebayes_multi_allele_snp_count += 1
+    #         freebayes_multi_snp_positions.append(v.POS)
+    #         # Calculate Allele Frequency of first ALT allele
+    #         ALT_allele_1 = v.ALT[0]
+    #         Alt_allele_freq_1 = int(v.INFO.get('AO')[0]) / int(v.INFO.get('DP'))
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = int(v.INFO.get('AO')[0])
+    #         # print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth, alt_allele_depth))
+    #         fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth, alt_allele_depth))
+    #         freebayes_dict[v.POS].append(ALT_allele_1)
+    #         freebayes_AF_dict[v.POS] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth,
+    #         alt_allele_depth)
+    #
+    #         # Calculate Allele Frequency of second ALT allele
+    #         ALT_allele_2 = v.ALT[1]
+    #         Alt_allele_freq_2 = int(v.INFO.get('AO')[1]) / int(v.INFO.get('DP'))
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = int(v.INFO.get('AO')[1])
+    #         # print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_2, Alt_allele_freq_2, reference_depth, alt_allele_depth))
+    #         fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_2, Alt_allele_freq_2, reference_depth, alt_allele_depth))
+    #         freebayes_dict[v.POS].append(ALT_allele_2)
+    #         freebayes_AF_dict[v.POS] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_2, Alt_allele_freq_2, reference_depth,
+    #         alt_allele_depth)
+    #
+    #     elif int(v.INFO.get('NUMALT')) == 3 and int(v.INFO.get('DP')) > 0:
+    #         freebayes_multi_allele_snp_count += 1
+    #         freebayes_multi_snp_positions.append(v.POS)
+    #         # Calculate Allele Frequency of first ALT allele
+    #         ALT_allele_1 = v.ALT[0]
+    #         Alt_allele_freq_1 = int(v.INFO.get('AO')[0]) / int(v.INFO.get('DP'))
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = int(v.INFO.get('AO')[0])
+    #         # print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth, alt_allele_depth))
+    #         fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (
+    #             key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth, alt_allele_depth))
+    #         freebayes_dict[v.POS].append(ALT_allele_1)
+    #         freebayes_AF_dict[v.POS] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth,
+    #         alt_allele_depth)
+    #
+    #         # Calculate Allele Frequency of second ALT allele
+    #         ALT_allele_2 = v.ALT[1]
+    #         Alt_allele_freq_2 = int(v.INFO.get('AO')[1]) / int(v.INFO.get('DP'))
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = int(v.INFO.get('AO')[1])
+    #         # print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_2, Alt_allele_freq_2, reference_depth, alt_allele_depth))
+    #         fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_2, Alt_allele_freq_2, reference_depth, alt_allele_depth))
+    #         freebayes_dict[v.POS].append(ALT_allele_2)
+    #         freebayes_AF_dict[v.POS] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_2, Alt_allele_freq_2, reference_depth,
+    #         alt_allele_depth)
+    #
+    #         # Calculate Allele Frequency of third ALT allele
+    #         ALT_allele_3 = v.ALT[2]
+    #         Alt_allele_freq_3 = int(v.INFO.get('AO')[2]) / int(v.INFO.get('DP'))
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = int(v.INFO.get('AO')[2])
+    #         # print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_3, Alt_allele_freq_3, reference_depth, alt_allele_depth))
+    #         fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_3, Alt_allele_freq_3, reference_depth, alt_allele_depth))
+    #         freebayes_dict[v.POS].append(ALT_allele_3)
+    #         freebayes_AF_dict[v.POS] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_3, Alt_allele_freq_3, reference_depth,
+    #         alt_allele_depth)
+    #
+    #     elif int(v.INFO.get('NUMALT')) == 4 and int(v.INFO.get('DP')) > 0:
+    #         freebayes_multi_allele_snp_count += 1
+    #         freebayes_multi_snp_positions.append(v.POS)
+    #         # Calculate Allele Frequency of first ALT allele
+    #         ALT_allele_1 = v.ALT[0]
+    #         Alt_allele_freq_1 = int(v.INFO.get('AO')[0]) / int(v.INFO.get('DP'))
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = int(v.INFO.get('AO')[0])
+    #         # print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth, alt_allele_depth))
+    #         fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (
+    #             key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth, alt_allele_depth))
+    #         freebayes_dict[v.POS].append(ALT_allele_1)
+    #         freebayes_AF_dict[v.POS] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth,
+    #         alt_allele_depth)
+    #
+    #         # Calculate Allele Frequency of second ALT allele
+    #         ALT_allele_2 = v.ALT[1]
+    #         Alt_allele_freq_2 = int(v.INFO.get('AO')[1]) / int(v.INFO.get('DP'))
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = int(v.INFO.get('AO')[1])
+    #         # print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_2, Alt_allele_freq_2, reference_depth, alt_allele_depth))
+    #         fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_2, Alt_allele_freq_2, reference_depth, alt_allele_depth))
+    #         freebayes_dict[v.POS].append(ALT_allele_2)
+    #         freebayes_AF_dict[v.POS] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_2, Alt_allele_freq_2, reference_depth,
+    #         alt_allele_depth)
+    #
+    #         # Calculate Allele Frequency of third ALT allele
+    #         ALT_allele_3 = v.ALT[2]
+    #         Alt_allele_freq_3 = int(v.INFO.get('AO')[2]) / int(v.INFO.get('DP'))
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = int(v.INFO.get('AO')[2])
+    #         # print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_3, Alt_allele_freq_3, reference_depth, alt_allele_depth))
+    #         fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_3, Alt_allele_freq_3, reference_depth, alt_allele_depth))
+    #         freebayes_dict[v.POS].append(ALT_allele_3)
+    #         freebayes_AF_dict[v.POS] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_3, Alt_allele_freq_3, reference_depth,
+    #         alt_allele_depth)
+    #
+    #         # Calculate Allele Frequency of third ALT allele
+    #         ALT_allele_4 = v.ALT[3]
+    #         Alt_allele_freq_4 = int(v.INFO.get('AO')[3]) / int(v.INFO.get('DP'))
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = int(v.INFO.get('AO')[3])
+    #         # print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_3, Alt_allele_freq_3, reference_depth, alt_allele_depth))
+    #         fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_4, Alt_allele_freq_4, reference_depth, alt_allele_depth))
+    #         freebayes_dict[v.POS].append(ALT_allele_4)
+    #         freebayes_AF_dict[v.POS] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_4, Alt_allele_freq_4, reference_depth,
+    #         alt_allele_depth)
+    #
+    #     elif int(v.INFO.get('NUMALT')) == 5 and int(v.INFO.get('DP')) > 0:
+    #         freebayes_multi_allele_snp_count += 1
+    #         freebayes_multi_snp_positions.append(v.POS)
+    #         # Calculate Allele Frequency of first ALT allele
+    #         ALT_allele_1 = v.ALT[0]
+    #         Alt_allele_freq_1 = int(v.INFO.get('AO')[0]) / int(v.INFO.get('DP'))
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = int(v.INFO.get('AO')[0])
+    #         # print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth, alt_allele_depth))
+    #         fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (
+    #             key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth, alt_allele_depth))
+    #         freebayes_dict[v.POS].append(ALT_allele_1)
+    #         freebayes_AF_dict[v.POS] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth,
+    #         alt_allele_depth)
+    #
+    #         # Calculate Allele Frequency of second ALT allele
+    #         ALT_allele_2 = v.ALT[1]
+    #         Alt_allele_freq_2 = int(v.INFO.get('AO')[1]) / int(v.INFO.get('DP'))
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = int(v.INFO.get('AO')[1])
+    #         # print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_2, Alt_allele_freq_2, reference_depth, alt_allele_depth))
+    #         fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_2, Alt_allele_freq_2, reference_depth, alt_allele_depth))
+    #         freebayes_dict[v.POS].append(ALT_allele_2)
+    #         freebayes_AF_dict[v.POS] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_2, Alt_allele_freq_2, reference_depth,
+    #         alt_allele_depth)
+    #
+    #         # Calculate Allele Frequency of third ALT allele
+    #         ALT_allele_3 = v.ALT[2]
+    #         Alt_allele_freq_3 = int(v.INFO.get('AO')[2]) / int(v.INFO.get('DP'))
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = int(v.INFO.get('AO')[2])
+    #         # print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_3, Alt_allele_freq_3, reference_depth, alt_allele_depth))
+    #         fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_3, Alt_allele_freq_3, reference_depth, alt_allele_depth))
+    #         freebayes_dict[v.POS].append(ALT_allele_3)
+    #         freebayes_AF_dict[v.POS] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_3, Alt_allele_freq_3, reference_depth,
+    #         alt_allele_depth)
+    #
+    #         # Calculate Allele Frequency of third ALT allele
+    #         ALT_allele_4 = v.ALT[3]
+    #         Alt_allele_freq_4 = int(v.INFO.get('AO')[3]) / int(v.INFO.get('DP'))
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = int(v.INFO.get('AO')[3])
+    #         # print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_3, Alt_allele_freq_3, reference_depth, alt_allele_depth))
+    #         fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_4, Alt_allele_freq_4, reference_depth, alt_allele_depth))
+    #         freebayes_dict[v.POS].append(ALT_allele_4)
+    #         freebayes_AF_dict[v.POS] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_4, Alt_allele_freq_4, reference_depth,
+    #         alt_allele_depth)
+    #
+    #         # Calculate Allele Frequency of third ALT allele
+    #         ALT_allele_5 = v.ALT[4]
+    #         Alt_allele_freq_5 = int(v.INFO.get('AO')[4]) / int(v.INFO.get('DP'))
+    #         Reference_allele = v.REF
+    #         Reference_allele_freq = int(v.INFO.get('RO')) / int(v.INFO.get('DP'))
+    #         total_depth = int(v.INFO.get('DP'))
+    #         reference_depth = int(v.INFO.get('RO'))
+    #         alt_allele_depth = int(v.INFO.get('AO')[4])
+    #         # print ("%s,%s,%s,%s,%s,%s,%s,%s\n" % (
+    #         # key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_3, Alt_allele_freq_3, reference_depth, alt_allele_depth))
+    #         fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (
+    #             key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_5, Alt_allele_freq_5, reference_depth, alt_allele_depth))
+    #         freebayes_dict[v.POS].append(ALT_allele_5)
+    #         freebayes_AF_dict[v.POS] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
+    #         key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_5, Alt_allele_freq_5, reference_depth,
+    #         alt_allele_depth)
+    #
+    # print "Number of Positions with Single SNP allele in Freebayes vcf - %s" % freebayes_single_allele_snp_count
+    # print "Number of Positions with Multiple SNP allele in Freebayes vcf - %s" % freebayes_multi_allele_snp_count
+    # #print sorted(freebayes_multi_snp_positions)
+    # fp.close()
+    # return freebayes_dict, freebayes_AF_dict
+
 def compare_variant_calls():
     reference_genome_LDV_abund = "5261-4089-0-RVRE_Aus0004_with_metagenome_LDV_abund_frequency.csv"
     same_genome_LDV_abund = "5261-4089-0-RVRE_same_assembly_with_metagenome_LDV_abund_frequency.csv"
@@ -609,6 +893,8 @@ def extract_gatk_Mutect():
 gatk_dict, gatk_AF_dict  = extract_gatk_Mutect()
 
 freebayes_dict, freebayes_AF_dict = extract_freebayes()
+
+extract_instrain()
 
 gatk_keys = list(gatk_dict.keys())
 freebayes_keys = list(freebayes_dict.keys())

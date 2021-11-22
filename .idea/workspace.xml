@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="83559750-9529-4d5a-805c-912660eb42e1" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/extract_freebayes_freq.py" beforeDir="false" afterPath="$PROJECT_DIR$/bin/extract_freebayes_freq.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workflow/Snakefile" beforeDir="false" afterPath="$PROJECT_DIR$/workflow/Snakefile" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -14,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="assign_strain.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="assign_strain.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bin/assign_strain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="389">
-              <caret line="52" column="24" selection-start-line="52" selection-start-column="11" selection-end-line="52" selection-end-column="24" />
+            <state relative-caret-position="399">
+              <caret line="46" column="36" selection-start-line="45" selection-start-column="4" selection-end-line="46" selection-end-column="36" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -26,16 +26,42 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="extract_freebayes_freq.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="extract_freebayes_freq.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bin/extract_freebayes_freq.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9282">
-              <caret line="462" column="34" selection-start-line="462" selection-start-column="34" selection-end-line="462" selection-end-column="34" />
+            <state relative-caret-position="297">
+              <caret line="897" lean-forward="true" selection-start-line="897" selection-end-line="897" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
+                <element signature="e#1220#20658#0" />
+                <element signature="e#20693#22800#0" />
+                <element signature="e#22830#23094#0" />
+                <element signature="e#23126#23313#0" />
+                <element signature="e#23346#35966#0" />
               </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Snakefile" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/workflow/Snakefile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="336">
+              <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gatk.smk" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/workflow/rules/gatk.smk">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1203" />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="freebayes.smk" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/workflow/rules/freebayes.smk">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -53,12 +79,13 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/bin/extract_freebayes_freq.py" />
         <option value="$PROJECT_DIR$/bin/assign_strain.py" />
+        <option value="$PROJECT_DIR$/workflow/Snakefile" />
+        <option value="$PROJECT_DIR$/bin/extract_freebayes_freq.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="11" />
     <option name="y" value="31" />
     <option name="width" value="2549" />
@@ -82,11 +109,25 @@
               <item name="samosa" type="462c0819:PsiDirectoryNode" />
               <item name="bin" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="samosa" type="b2602c69:ProjectViewProjectNode" />
+              <item name="samosa" type="462c0819:PsiDirectoryNode" />
+              <item name="workflow" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="samosa" type="b2602c69:ProjectViewProjectNode" />
+              <item name="samosa" type="462c0819:PsiDirectoryNode" />
+              <item name="workflow" type="462c0819:PsiDirectoryNode" />
+              <item name="rules" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
     </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -114,9 +155,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="11" y="31" width="2549" height="1324" extended-state="0" />
+    <frame x="0" y="25" width="1920" height="984" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10570403" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.106496274" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="R Packages" order="3" />
       <window_info anchor="right" id="R Graphics" order="3" />
@@ -143,6 +185,31 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/bin/assign_strain.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1092">
+          <caret line="52" column="24" selection-start-line="52" selection-start-column="11" selection-end-line="52" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/extract_freebayes_freq.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9702">
+          <caret line="462" column="34" selection-start-line="462" selection-start-column="34" selection-end-line="462" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#1220#20658#0" />
+            <element signature="e#20693#22800#0" />
+            <element signature="e#22830#23094#0" />
+            <element signature="e#23126#23313#0" />
+            <element signature="e#23346#35966#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/assign_strain.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="693">
           <caret line="52" column="24" lean-forward="true" selection-start-line="52" selection-start-column="11" selection-end-line="52" selection-end-column="24" />
           <folding>
@@ -157,6 +224,11 @@
           <caret line="738" column="34" selection-start-line="738" selection-start-column="34" selection-end-line="738" selection-end-column="34" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#1220#20658#0" />
+            <element signature="e#20693#22800#0" />
+            <element signature="e#22830#23094#0" />
+            <element signature="e#23126#23313#0" />
+            <element signature="e#23346#35966#0" />
           </folding>
         </state>
       </provider>
@@ -177,6 +249,11 @@
           <caret line="738" column="34" lean-forward="true" selection-start-line="738" selection-start-column="34" selection-end-line="738" selection-end-column="34" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#1220#20658#0" />
+            <element signature="e#20693#22800#0" />
+            <element signature="e#22830#23094#0" />
+            <element signature="e#23126#23313#0" />
+            <element signature="e#23346#35966#0" />
           </folding>
         </state>
       </provider>
@@ -228,22 +305,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bin/extract_freebayes_freq.py">
+    <entry file="file://$PROJECT_DIR$/workflow/rules/freebayes.smk">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workflow/Snakefile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9282">
-          <caret line="462" column="34" selection-start-line="462" selection-start-column="34" selection-end-line="462" selection-end-column="34" />
+        <state relative-caret-position="336">
+          <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workflow/rules/gatk.smk">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1203" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/assign_strain.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="46" column="36" selection-start-line="45" selection-start-column="4" selection-end-line="46" selection-end-column="36" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bin/assign_strain.py">
+    <entry file="file://$PROJECT_DIR$/bin/extract_freebayes_freq.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="389">
-          <caret line="52" column="24" selection-start-line="52" selection-start-column="11" selection-end-line="52" selection-end-column="24" />
+        <state relative-caret-position="297">
+          <caret line="897" lean-forward="true" selection-start-line="897" selection-end-line="897" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#1220#20658#0" />
+            <element signature="e#20693#22800#0" />
+            <element signature="e#22830#23094#0" />
+            <element signature="e#23126#23313#0" />
+            <element signature="e#23346#35966#0" />
           </folding>
         </state>
       </provider>
