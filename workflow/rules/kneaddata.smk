@@ -13,5 +13,7 @@ rule Remove_human:
 		unzip_fq1 = "results/Clean_Human_removed/{sample}_paired_1.fastq",
 		unzip_fq2 = "results/Clean_Human_removed/{sample}_paired_2.fastq",
 	threads: 4
+ 	conda:
+		"envs/kneaddata.yml"
 	shell:
-		"kneaddata -i {input.r1} -i {input.r2} -db {params.db} -t {threads} -p {params.p} -o {params.outputdir} --output-prefix {params.prefix} --bypass-trim && gzip {params.unzip_fq1} {params.unzip_fq2}"
+		"kneaddata -i {input.r1} -i {input.r2} -db {params.db} -t {threads} -p {params.p} -o {params.outputdir} --output-prefix {params.prefix} --trimmomatic /nfs/esnitkin/bin_group/variant_calling_bin/Trimmomatic/ && gzip {params.unzip_fq1} {params.unzip_fq2}"

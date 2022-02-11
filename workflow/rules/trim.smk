@@ -21,6 +21,7 @@ rule trimmomatic_pe:
         window_size_quality=config["window_size_quality"],
         minlength=config["minlength"],
         headcrop_length=config["headcrop_length"],
-
+    conda:
+        "envs/trimmomatic.yml"
     shell:
         "trimmomatic PE {input.r1} {input.r2} {output.r1} {output.r1_unpaired} {output.r2} {output.r2_unpaired} ILLUMINACLIP:{params.adapter_filepath}:{params.seed}:{params.palindrome_clip}:{params.simple_clip}:{params.minadapterlength}:{params.keep_both_reads} SLIDINGWINDOW:{params.window_size}:{params.window_size_quality} MINLEN:{params.minlength} HEADCROP:{params.headcrop_length} &>{log}"

@@ -45,7 +45,7 @@ def load_metagenome_to_genome_map(Metagenome_to_Genome):
 
     df = pd.read_csv("%s" % Metagenome_to_Genome, sep='\t', header=0, dtype = str)
     for index, row in df.iterrows():
-        if (args.Final_LDV_abund_frequency).replace('_Mutect_Final_LDV_abund_frequency.csv', '') in str(row[2]):
+        if (os.path.basename(args.Final_LDV_abund_frequency)).replace('_LDV_abund_frequency.csv', '') in str(row[2]):
             genome_id.append(str(row[6]))
         # else:
         #     print("Genome ID not found")
@@ -61,10 +61,14 @@ def load_ldv_by_node(LDV_by_node_matrix):
     all_ldv_pos = df.iloc[:, 0]
     node_allele_ldv = {}
     for (columnName, columnData) in df.iteritems():
-        node_allele_ldv[columnName] = {}
-        for idx, alleles in enumerate(columnData):
-            node_allele_ldv[columnName][all_ldv_pos[idx]] = alleles
-
+        if columnName == "Pos":
+            continue
+        else:
+            node_allele_ldv[columnName] = {}
+            for idx, alleles in enumerate(columnData):
+                node_allele_ldv[columnName][all_ldv_pos[idx]] = alleles
+    for i in all_ldv_pos:
+        print int(i) + 1
     return node_allele_ldv
 
 class StringConverter(dict):
@@ -77,7 +81,8 @@ class StringConverter(dict):
 
 def load_genomes_in_node(Genomes_in_node, node_allele_ldv, LDV_abund_frequency_dict):
     df2 = pd.read_csv("%s" % Genomes_in_node, sep='\t', header=0, dtype = str)
-
+    out_file = "%s" % args.Final_LDV_abund_frequency.replace('_LDV_abund_frequency.csv', '_strain.txt')
+    fp = open(out_file, 'w+')
     geneome_id_exists = df2.isin(genome_id).any()
     cols = geneome_id_exists.index[geneome_id_exists].tolist()
     print("The sample is found in these nodes - %s" % cols)
@@ -90,47 +95,61 @@ def load_genomes_in_node(Genomes_in_node, node_allele_ldv, LDV_abund_frequency_d
             no_of_nodes_genome_id_is_present += 1
             no_of_ldv_for_node = 0
             specific_same_allele_called_in_both = 0
-            specific_same_allele_called_in_freebayes = 0
-            specific_same_allele_called_in_mutect = 0
+            specific_different_allele_called_in_both = 0
+            # specific_same_allele_called_in_freebayes = 0
+            # specific_same_allele_called_in_mutect = 0
 
             print ("LDV for node %s are - " % nodes)
             
             for (columnName, columnData) in node_allele_ldv[nodes].iteritems():
-
                 if isNaN(columnData):
                     continue
                 else:
                     no_of_ldv_for_node += 1
-                    if LDV_abund_frequency_dict.get(columnName.astype('str')) is not None:
+                    # if columnName.astype('str') == "2633822":
+                    #     print columnData
+                    #     print LDV_abund_frequency_dict[columnName]
+                    #     print LDV_abund_frequency_dict.get(columnName)
+                    #     # exit()
+                    if LDV_abund_frequency_dict.get(columnName) is not None:
+                        
+                        instrain_allele_called = str(((LDV_abund_frequency_dict[columnName]).split(','))[2])
+                        instrain_allele_freq = str(((LDV_abund_frequency_dict[columnName]).split(','))[3])
 
-                        freebayes_allele_called = str(((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[2])
-                        freebayes_allele_freq = str(((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[3])
+                        # freebayes_allele_called = str(((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[2])
+                        # freebayes_allele_freq = str(((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[3])
 
-                        mutect_allele_called = str(
-                            ((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[6])
-                        mutect_allele_freq = str(
-                            ((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[7])
+                        # mutect_allele_called = str(
+                        #     ((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[6])
+                        # mutect_allele_freq = str(
+                        #     ((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[7])
 
-                        comment = str(((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[8])
+                        comment = str(((LDV_abund_frequency_dict[columnName]).split(','))[6])
 
-                        if freebayes_allele_called.lstrip() == columnData and mutect_allele_called.lstrip() == freebayes_allele_called.lstrip():
-                            specific = "WGA allele and Metagenome allele are same for both Freebayes and GATK"
+                        if instrain_allele_called.lstrip() == columnData:
+                            specific = "WGA allele and Metagenome allele are same for both Instrain and Samtools"
                             specific_same_allele_called_in_both += 1
-                        elif freebayes_allele_called.lstrip() == columnData and mutect_allele_called.lstrip() != freebayes_allele_called.lstrip():
-                            specific = "WGA allele and Metagenome allele are same for Freebayes."
-                            specific_same_allele_called_in_freebayes += 1
-                        elif mutect_allele_called.lstrip() == columnData and mutect_allele_called.lstrip() != freebayes_allele_called.lstrip():
-                            specific = "WGA allele and Metagenome allele are same for GATK.."
-                            specific_same_allele_called_in_mutect += 1
                         else:
                             specific = "WGA allele and Metagenome allele are different"
-                        print (columnName, columnData, freebayes_allele_called.lstrip(), freebayes_allele_freq.lstrip(), mutect_allele_called.lstrip(), mutect_allele_freq.lstrip(),comment.lstrip(), specific)
-                    else:
-                        print (columnName, columnData, "NA", "NA", "NA", "NA", "Position not called", "NA")
-            benchmark = benchmark + "Node%s->%s/%s/%s/%s " % (nodes, specific_same_allele_called_in_both, specific_same_allele_called_in_freebayes, specific_same_allele_called_in_mutect, no_of_ldv_for_node)
+                            specific_different_allele_called_in_both += 1
 
-    # print("Metagenome Sample ID,WGS Genome ID,Genome ID present in Nodes, Benchmark")
-    # print("%s,%s,%s,%s" % (args.Final_LDV_abund_frequency, str(genome_id[0]), no_of_nodes_genome_id_is_present,benchmark))
+                        # if freebayes_allele_called.lstrip() == columnData and mutect_allele_called.lstrip() == freebayes_allele_called.lstrip():
+                        #     specific = "WGA allele and Metagenome allele are same for both Freebayes and GATK"
+                        #     specific_same_allele_called_in_both += 1
+                        # elif freebayes_allele_called.lstrip() == columnData and mutect_allele_called.lstrip() != freebayes_allele_called.lstrip():
+                        #     specific = "WGA allele and Metagenome allele are same for Freebayes."
+                        #     specific_same_allele_called_in_freebayes += 1
+                        # elif mutect_allele_called.lstrip() == columnData and mutect_allele_called.lstrip() != freebayes_allele_called.lstrip():
+                        #     specific = "WGA allele and Metagenome allele are same for GATK.."
+                        #     specific_same_allele_called_in_mutect += 1
+                        # else:
+                        #     specific = "WGA allele and Metagenome allele are different"
+                        print (columnName, columnData, instrain_allele_called.lstrip(), instrain_allele_freq.lstrip(), comment.lstrip(), specific)
+                    else:
+                        print (columnName, columnData, "NA", "NA", "Position not called", "NA")
+            benchmark = benchmark + "Node%s->%s/%s/%s " % (nodes, specific_same_allele_called_in_both, specific_different_allele_called_in_both, no_of_ldv_for_node)
+
+    
 
     non_specific_benchmark = ""
     no_of_nodes_genome_id_is_not_present = 0
@@ -141,8 +160,9 @@ def load_genomes_in_node(Genomes_in_node, node_allele_ldv, LDV_abund_frequency_d
                 no_of_nodes_genome_id_is_not_present += 1
                 no_of_ldv_for_node = 0
                 specific_same_allele_called_in_both = 0
-                specific_same_allele_called_in_freebayes = 0
-                specific_same_allele_called_in_mutect = 0
+                specific_different_allele_called_in_both = 0
+                # specific_same_allele_called_in_freebayes = 0
+                # specific_same_allele_called_in_mutect = 0
 
                 print ("LDV for node %s are - " % nodes)
                 for (columnName, columnData) in node_allele_ldv[nodes].iteritems():
@@ -151,48 +171,73 @@ def load_genomes_in_node(Genomes_in_node, node_allele_ldv, LDV_abund_frequency_d
                         continue
                     else:
                         no_of_ldv_for_node += 1
+                        # if columnName.astype('str') == "2633822":
+                        #     print columnData
+                        #     print LDV_abund_frequency_dict.get(columnName.astype('str'))
+                        #     exit()
                         if LDV_abund_frequency_dict.get(columnName.astype('str')) is not None:
-                            freebayes_allele_called = str(
-                                ((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[2])
-                            freebayes_allele_freq = str(
-                                ((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[3])
-                            comment = str(((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[8])
+                            
+                            instrain_allele_called = str(
+                                ((LDV_abund_frequency_dict[columnName]).split(','))[2])
+                            instrain_allele_freq = str(
+                                ((LDV_abund_frequency_dict[columnName]).split(','))[3])
+                            comment = str(((LDV_abund_frequency_dict[columnName]).split(','))[6])
 
-                            mutect_allele_called = str(
-                                ((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[6])
-                            mutect_allele_freq = str(
-                                ((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[7])
 
-                            if freebayes_allele_called.lstrip() == columnData and mutect_allele_called.lstrip() == freebayes_allele_called.lstrip():
-                                specific = "WGA allele and Metagenome allele are same for both Freebayes and GATK"
+                            # freebayes_allele_called = str(
+                            #     ((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[2])
+                            # freebayes_allele_freq = str(
+                            #     ((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[3])
+                            # comment = str(((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[8])
+
+                            # mutect_allele_called = str(
+                            #     ((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[6])
+                            # mutect_allele_freq = str(
+                            #     ((LDV_abund_frequency_dict[columnName.astype('str')]).split(','))[7])
+
+                            # if freebayes_allele_called.lstrip() == columnData and mutect_allele_called.lstrip() == freebayes_allele_called.lstrip():
+                            #     specific = "WGA allele and Metagenome allele are same for both Freebayes and GATK"
+                            #     specific_same_allele_called_in_both += 1
+                            # elif freebayes_allele_called.lstrip() == columnData and mutect_allele_called.lstrip() != freebayes_allele_called.lstrip():
+                            #     specific = "WGA allele and Metagenome allele are same for Freebayes."
+                            #     specific_same_allele_called_in_freebayes += 1
+                            # elif mutect_allele_called.lstrip() == columnData and mutect_allele_called.lstrip() != freebayes_allele_called.lstrip():
+                            #     specific = "WGA allele and Metagenome allele are same for GATK.."
+                            #     specific_same_allele_called_in_mutect += 1
+                            # else:
+                            #     specific = "WGA allele and Metagenome allele are different"
+
+                            if instrain_allele_called.lstrip() == columnData:
+                                specific = "WGA allele and Metagenome allele are same for both Instrain and Samtools"
                                 specific_same_allele_called_in_both += 1
-                            elif freebayes_allele_called.lstrip() == columnData and mutect_allele_called.lstrip() != freebayes_allele_called.lstrip():
-                                specific = "WGA allele and Metagenome allele are same for Freebayes."
-                                specific_same_allele_called_in_freebayes += 1
-                            elif mutect_allele_called.lstrip() == columnData and mutect_allele_called.lstrip() != freebayes_allele_called.lstrip():
-                                specific = "WGA allele and Metagenome allele are same for GATK.."
-                                specific_same_allele_called_in_mutect += 1
+                            
                             else:
                                 specific = "WGA allele and Metagenome allele are different"
-                            print (
-                            columnName, columnData, freebayes_allele_called.lstrip(), freebayes_allele_freq.lstrip(),
-                            mutect_allele_called.lstrip(), mutect_allele_freq.lstrip(), comment.lstrip(), specific)
+                                specific_different_allele_called_in_both += 1
+                            print (columnName, columnData, instrain_allele_called.lstrip(), instrain_allele_freq.lstrip(), comment.lstrip(), specific)
                         else:
-                            print (columnName, columnData, "NA", "NA", "NA", "NA", "Position not called", "NA")
-                if specific_same_allele_called_in_both > 0 or specific_same_allele_called_in_freebayes > 0 or specific_same_allele_called_in_mutect > 0:
-                    non_specific_benchmark = non_specific_benchmark + "Node%s->%s/%s/%s/%s " % (nodes, specific_same_allele_called_in_both, specific_same_allele_called_in_freebayes, specific_same_allele_called_in_mutect, no_of_ldv_for_node)
+                            print (columnName, columnData, "NA", "NA", "Position not called", "NA")
+                if specific_same_allele_called_in_both > 0 or specific_different_allele_called_in_both > 0:
+                    non_specific_benchmark = non_specific_benchmark + "Node%s->%s/%s/%s/%s " % (nodes, specific_same_allele_called_in_both, specific_different_allele_called_in_both, no_of_ldv_for_node)
             else:
                 specific_same_allele_called_in_both = 0
-                specific_same_allele_called_in_freebayes = 0
-                specific_same_allele_called_in_mutect = 0
-                if specific_same_allele_called_in_both > 0 or specific_same_allele_called_in_freebayes > 0 or specific_same_allele_called_in_mutect > 0:
+                specific_different_allele_called_in_both = 0
+                # specific_same_allele_called_in_freebayes = 0
+                # specific_same_allele_called_in_mutect = 0
+                if specific_same_allele_called_in_both > 0 or specific_different_allele_called_in_both > 0:
                     non_specific_benchmark = non_specific_benchmark + "Node%s->%s/%s " % (nodes, "0", "0")
 
 
     print("Metagenome Sample ID,WGS Genome ID,Genome ID present in Nodes, Benchmark, Genome ID not present in Nodes, Non-specific Benchmark")
     print("%s,%s,%s,%s,%s,%s" % (
-    args.Final_LDV_abund_frequency, str(genome_id[0]), no_of_nodes_genome_id_is_present, benchmark, no_of_nodes_genome_id_is_not_present, non_specific_benchmark))
-
+    os.path.basename(args.Final_LDV_abund_frequency), str(genome_id[0]), no_of_nodes_genome_id_is_present, benchmark, no_of_nodes_genome_id_is_not_present, non_specific_benchmark))
+    fp.write("Metagenome Sample ID,WGS Genome ID,Genome ID present in Nodes, Benchmark, Genome ID not present in Nodes, Non-specific Benchmark\n")
+    fp.write("%s,%s,%s,%s,%s,%s" % (
+    os.path.basename(args.Final_LDV_abund_frequency), str(genome_id[0]), no_of_nodes_genome_id_is_present, benchmark, no_of_nodes_genome_id_is_not_present, non_specific_benchmark))
+    # print("Metagenome Sample ID,WGS Genome ID,Genome ID present in Nodes, Genome ID not present in Nodes")
+    # print("%s,%s,%s,%s" % (
+    # os.path.basename(args.Final_LDV_abund_frequency), str(genome_id[0]), no_of_nodes_genome_id_is_present, no_of_nodes_genome_id_is_not_present))
+    fp.close()
 
 
 def load_LDV_abund_frequency(Final_LDV_abund_frequency):
@@ -201,25 +246,33 @@ def load_LDV_abund_frequency(Final_LDV_abund_frequency):
     #print (LDV_abund_frequency)
     LDV_abund_frequency_dict = {}
     for index, row in LDV_abund_frequency.iterrows():
-        if isNaN(row['LDV Position']):
-            position_key = row[' GATK LDV Position']
-            LDV_abund_frequency_dict[position_key] = "%s, %s, %s, %s, %s, %s, %s, %s, %s" % (
-            row[' Freebayes Reference Allele'], row[' Freebayes Reference Allele Frequency'],
-            row[' Freebayes ALT Allele'], row[' Freebayes ALT Allele Frequency'], row[' GATK Mutect Reference Allele'], row[' GATK Mutect Reference Allele Frequency'], row[' GATK Mutect ALT Allele'], row[' GATK Mutect ALT Allele Frequency'], row[' Comment'])
-        elif isNaN(row[' GATK LDV Position']):
-            position_key = row['LDV Position']
-            LDV_abund_frequency_dict[position_key] = "%s, %s, %s, %s, %s, %s, %s, %s, %s" % (
-                row[' Freebayes Reference Allele'], row[' Freebayes Reference Allele Frequency'],
-                row[' Freebayes ALT Allele'], row[' Freebayes ALT Allele Frequency'],
-                row[' GATK Mutect Reference Allele'], row[' GATK Mutect Reference Allele Frequency'],
-                row[' GATK Mutect ALT Allele'], row[' GATK Mutect ALT Allele Frequency'], row[' Comment'])
-        else:
-            position_key = row['LDV Position']
-            LDV_abund_frequency_dict[position_key] = "%s, %s, %s, %s, %s, %s, %s, %s, %s" % (
-                row[' Freebayes Reference Allele'], row[' Freebayes Reference Allele Frequency'],
-                row[' Freebayes ALT Allele'], row[' Freebayes ALT Allele Frequency'],
-                row[' GATK Mutect Reference Allele'], row[' GATK Mutect Reference Allele Frequency'],
-                row[' GATK Mutect ALT Allele'], row[' GATK Mutect ALT Allele Frequency'], row[' Comment'])
+        position_key = row['LDV Position']
+        position_key = int(position_key) + 1
+        LDV_abund_frequency_dict[position_key] = "%s, %s, %s, %s, %s, %s, %s" % (
+            row[' Reference Allele'], row[' Reference Allele Frequency'],
+            row[' ALT Allele'], row[' ALT Allele Frequency'],
+            row[' REF allele Depth'], row[' ALT Allele Depth'],
+            row[' class'])
+        # Not required anymore. Removing Freebayes/GATK variant calls from the analysis
+        # if isNaN(row['LDV Position']):
+        #     position_key = row[' GATK LDV Position']
+        #     LDV_abund_frequency_dict[position_key] = "%s, %s, %s, %s, %s, %s, %s, %s, %s" % (
+        #     row[' Freebayes Reference Allele'], row[' Freebayes Reference Allele Frequency'],
+        #     row[' Freebayes ALT Allele'], row[' Freebayes ALT Allele Frequency'], row[' GATK Mutect Reference Allele'], row[' GATK Mutect Reference Allele Frequency'], row[' GATK Mutect ALT Allele'], row[' GATK Mutect ALT Allele Frequency'], row[' Comment'])
+        # elif isNaN(row[' GATK LDV Position']):
+        #     position_key = row['LDV Position']
+        #     LDV_abund_frequency_dict[position_key] = "%s, %s, %s, %s, %s, %s, %s, %s, %s" % (
+        #         row[' Freebayes Reference Allele'], row[' Freebayes Reference Allele Frequency'],
+        #         row[' Freebayes ALT Allele'], row[' Freebayes ALT Allele Frequency'],
+        #         row[' GATK Mutect Reference Allele'], row[' GATK Mutect Reference Allele Frequency'],
+        #         row[' GATK Mutect ALT Allele'], row[' GATK Mutect ALT Allele Frequency'], row[' Comment'])
+        # else:
+        #     position_key = row['LDV Position']
+        #     LDV_abund_frequency_dict[position_key] = "%s, %s, %s, %s, %s, %s, %s, %s, %s" % (
+        #         row[' Freebayes Reference Allele'], row[' Freebayes Reference Allele Frequency'],
+        #         row[' Freebayes ALT Allele'], row[' Freebayes ALT Allele Frequency'],
+        #         row[' GATK Mutect Reference Allele'], row[' GATK Mutect Reference Allele Frequency'],
+        #         row[' GATK Mutect ALT Allele'], row[' GATK Mutect ALT Allele Frequency'], row[' Comment'])
     #print (len(LDV_abund_frequency_dict))
     return LDV_abund_frequency_dict
 

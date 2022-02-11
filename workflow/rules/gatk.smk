@@ -6,6 +6,8 @@ rule GATK_MarkDuplicates:
         bamdedupmetrics="results/DedupReads/{sample}_marked_dup_metrics.txt",
     log:
         "logs/gatk/{sample}_GATK_MarkDuplicates.log"
+    conda:
+        "envs/picard.yml"
     shell:
         "picard MarkDuplicates REMOVE_DUPLICATES=true I={input.bamsortout} O={output.bamdedup} M={output.bamdedupmetrics} 2>{log}"
 
@@ -14,6 +16,8 @@ rule picard_SeqDict:
         reference=config["reference_path"],
     output:
         ref_seqdict=reference_seqdict,
+    conda:
+        "envs/picard.yml"
     shell:
         "picard CreateSequenceDictionary R={input.reference} O={output.ref_seqdict}"
 
@@ -29,6 +33,8 @@ rule GATK_DepthofCoverage:
         gatk_depth_summary="results/DedupReads/{sample}_depth_of_coverage",
     log:
         "logs/gatk/{sample}_GATK_DepthofCoverage.log"
+    conda:
+        "envs/gatk.yml"
     shell:
         "java -Xmx5G -jar ./bin/GenomeAnalysisTK.jar -T DepthOfCoverage -R {input.reference} -o {output.gatk_depth_summary} -I {input.bamdedup} --summaryCoverageThreshold 1 --summaryCoverageThreshold 2 --summaryCoverageThreshold 3 --summaryCoverageThreshold 4 --summaryCoverageThreshold 5 --summaryCoverageThreshold 6 --summaryCoverageThreshold 7 --summaryCoverageThreshold 8 --summaryCoverageThreshold 9 --summaryCoverageThreshold 10 --summaryCoverageThreshold 15 --summaryCoverageThreshold 20 --summaryCoverageThreshold 25 --ignoreDeletionSites 2>{log}"
 

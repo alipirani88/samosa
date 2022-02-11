@@ -1,0 +1,7 @@
+name: instrain_snakemake
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - instrain

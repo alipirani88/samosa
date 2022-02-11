@@ -325,7 +325,7 @@ def extract_instrain():
     LDV_abund_file = "%s" % args.instrain_vcf.replace('_instrain_SNVs.tsv', '_LDV_abund_frequency.csv')
     fp = open(LDV_abund_file, 'w+')
     #vcf = VCF('%s' % args.instrain_vcf)
-    fp.write("LDV Position, Strain Position, Reference Allele, Reference Allele Frequency, ALT Allele, ALT Allele Frequency, REF allele Depth, ALT Allele Depth, class\n")
+    fp.write("LDV Position, Strain Position, Reference Allele, Reference Allele Frequency, ALT Allele, ALT Allele Frequency, REF allele Depth, ALT Allele Depth\n")
 
     instrain_single_allele_snp_count = 0
     instrain_multi_allele_snp_count = 0
@@ -352,8 +352,8 @@ def extract_instrain():
             # print "%s,%s,%s,%s,%s,%s,%s,%s\n" % (
             # key, row[1], Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth,
             # alt_allele_depth)
-            fp.write("%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, row[1], Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth, alt_allele_depth, row[15]))
-            instrain_AF_dict[row[1]] = "%s,%s,%s,%s,%s,%s,%s,%s,%s" % (key, row[1], Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth, alt_allele_depth, row[15])
+            fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, row[1], Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth, alt_allele_depth))
+            instrain_AF_dict[row[1]] = "%s,%s,%s,%s,%s,%s,%s,%s" % (key, row[1], Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth, alt_allele_depth)
 
         elif row[15] == "SNV" and int(row[3]) > 1:
             # when there is more than one allele found, and con_base equal ref_base equal major allele
@@ -373,12 +373,12 @@ def extract_instrain():
             # print "%s,%s,%s,%s,%s,%s,%s,%s\n" % (
             #     key, row[1], Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth,
             #     alt_allele_depth)
-            fp.write("%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (
+            fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (
             key, row[1], Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth,
-            alt_allele_depth, row[15]))
-            instrain_AF_dict[row[1]] = "%s,%s,%s,%s,%s,%s,%s,%s,%s" % (
+            alt_allele_depth))
+            instrain_AF_dict[row[1]] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
             key, row[1], Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth,
-            alt_allele_depth, row[15])
+            alt_allele_depth)
 
 
         elif row[15] == "con_SNV" and int(row[3]) > 1:
@@ -400,12 +400,12 @@ def extract_instrain():
             # print "%s,%s,%s,%s,%s,%s,%s,%s\n" % (
             #     key, row[1], Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth,
             #     alt_allele_depth)
-            fp.write("%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (
+            fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (
             key, row[1], Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth,
-            alt_allele_depth, row[15]))
-            instrain_AF_dict[row[1]] = "%s,%s,%s,%s,%s,%s,%s,%s,%s" % (
+            alt_allele_depth))
+            instrain_AF_dict[row[1]] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
             key, row[1], Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth,
-            alt_allele_depth, row[15])
+            alt_allele_depth)
 
 
         elif row[15] == "pop_SNV" and int(row[3]) > 1:
@@ -427,12 +427,12 @@ def extract_instrain():
             # print "%s,%s,%s,%s,%s,%s,%s,%s\n" % (
             #     key, row[1], Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth,
             #     alt_allele_depth)
-            fp.write("%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (
+            fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (
             key, row[1], Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth,
-            alt_allele_depth, row[15]))
-            instrain_AF_dict[row[1]] = "%s,%s,%s,%s,%s,%s,%s,%s,%s" % (
+            alt_allele_depth))
+            instrain_AF_dict[row[1]] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
             key, row[1], Reference_allele, Reference_allele_freq, ALT_allele, Alt_allele_freq, reference_depth,
-            alt_allele_depth, row[15])
+            alt_allele_depth)
 
             ALT_allele_1 = row[6]
             Alt_allele_freq_1 = row[9]
@@ -443,16 +443,15 @@ def extract_instrain():
             # print "%s,%s,%s,%s,%s,%s,%s,%s\n" % (
             #     key, row[1], Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth,
             #     alt_allele_depth_1)
-            fp.write("%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (key, row[1], Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth, alt_allele_depth_1, row[15]))
-            instrain_AF_dict[row[1]] = "%s,%s,%s,%s,%s,%s,%s,%s,%s" % (
+            fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (
                 key, row[1], Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth,
-                alt_allele_depth_1, row[15])
-        elif row[15] == "DivergentSite" and int(row[3]) == 0:
-            continue
+                alt_allele_depth_1))
+            instrain_AF_dict[row[1]] = "%s,%s,%s,%s,%s,%s,%s,%s" % (
+                key, row[1], Reference_allele, Reference_allele_freq, ALT_allele_1, Alt_allele_freq_1, reference_depth,
+                alt_allele_depth_1)
         else:
-                print "UNknown class"
-                print row
-                exit()
+            print "UNknown class"
+            exit()
 
     print "Number of Positions with Single SNP allele in Instrain SNV - %s" % instrain_single_allele_snp_count
     print "Number of Positions with Multiple SNP allele in Instrain SNV - %s" % instrain_multi_allele_snp_count
@@ -493,10 +492,6 @@ def extract_gatk_Mutect():
             ALT_allele = v.ALT[0]
             Reference_allele = v.REF
             AD_array = (((((str(v.format('AD'))).replace('  ', ' ')).replace('[ ', '[')).replace('[', '')).replace(']', '')).split(' ')
-            # Some format issues with GATK Mutect vcf file
-            if len(AD_array) > 3:
-                while('' in AD_array) :
-                    AD_array.remove("")
             if int(v.format('DP')) == 0:
                 total_depth = int(v.format('DP'))
                 Reference_allele_freq = 0

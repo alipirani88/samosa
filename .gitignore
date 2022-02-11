@@ -12,3 +12,4 @@
 hg37*
 resources/
 results/
+.snakemake/
