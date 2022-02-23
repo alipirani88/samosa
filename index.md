@@ -1,7 +1,7 @@
 
 # SAMOSA
 
-SAMOSA is a Snakemake computational workflow for performing strain level detection from Metagenomic samples. 
+A Snakemake workflow to perform strain level detection from Metagenomic samples.
 
 ![Workflow](/dag.svg)
 
