@@ -23,8 +23,7 @@ rule clean:
 # Add Modular rules
 include: "rules/kneaddata.smk"
 include: "rules/trim.smk"
-#include: "rules/bowtie.smk"
-include: "rules/bwa.smk"
+include: "rules/bowtie.smk"
 include: "rules/gatk.smk"
 include: "rules/samtools.smk"
 include: "rules/freebayes.smk"
