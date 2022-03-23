@@ -42,11 +42,15 @@ def isNaN(string):
 
 def load_metagenome_to_genome_map(Metagenome_to_Genome):
     genome_id = []
-
     df = pd.read_csv("%s" % Metagenome_to_Genome, sep='\t', header=0, dtype = str)
+    print "Loading Metagenome to Genome Metadata Lookup"
     for index, row in df.iterrows():
-        if (os.path.basename(args.Final_LDV_abund_frequency)).replace('_LDV_abund_frequency.csv', '') in str(row[2]):
-            genome_id.append(str(row[6]))
+        #print str(row[1])
+        if (os.path.basename(args.Final_LDV_abund_frequency)).replace('_LDV_abund_frequency.csv', '') in str(row[1]):
+            # Changing str(row[2]) for Marimba to str(row[1])
+            #genome_id.append(str(row[6]))
+            # Changing str(row[6]) for Marimba to str(row[2])
+            genome_id.append(str(row[2]))
         # else:
         #     print("Genome ID not found")
         #     exit()
@@ -67,8 +71,8 @@ def load_ldv_by_node(LDV_by_node_matrix):
             node_allele_ldv[columnName] = {}
             for idx, alleles in enumerate(columnData):
                 node_allele_ldv[columnName][all_ldv_pos[idx]] = alleles
-    for i in all_ldv_pos:
-        print int(i) + 1
+    #for i in all_ldv_pos:
+    #    print int(i) + 1
     return node_allele_ldv
 
 class StringConverter(dict):
@@ -83,6 +87,8 @@ def load_genomes_in_node(Genomes_in_node, node_allele_ldv, LDV_abund_frequency_d
     df2 = pd.read_csv("%s" % Genomes_in_node, sep='\t', header=0, dtype = str)
     out_file = "%s" % args.Final_LDV_abund_frequency.replace('_LDV_abund_frequency.csv', '_strain.txt')
     fp = open(out_file, 'w+')
+    out_file_log = "%s" % args.Final_LDV_abund_frequency.replace('_LDV_abund_frequency.csv', '_strain.log')
+    fp_log = open(out_file_log, 'w+')
     geneome_id_exists = df2.isin(genome_id).any()
     cols = geneome_id_exists.index[geneome_id_exists].tolist()
     print("The sample is found in these nodes - %s" % cols)
@@ -106,10 +112,21 @@ def load_genomes_in_node(Genomes_in_node, node_allele_ldv, LDV_abund_frequency_d
                     continue
                 else:
                     no_of_ldv_for_node += 1
-                    # if columnName.astype('str') == "2633822":
-                    #     print columnData
-                    #     print LDV_abund_frequency_dict[columnName]
-                    #     print LDV_abund_frequency_dict.get(columnName)
+                    if columnName.astype('str') == "4027607":
+                        print columnData
+                        # print LDV_abund_frequency_dict[columnName]
+                        print LDV_abund_frequency_dict.get(columnName)
+                        #exit()
+                    if columnName.astype('str') == "3774144":
+                        print columnData
+                        # print LDV_abund_frequency_dict[columnName]
+                        print LDV_abund_frequency_dict.get(columnName)
+                        #exit()
+                    if columnName.astype('str') == "2545063":
+                        print columnData
+                        # print LDV_abund_frequency_dict[columnName]
+                        print LDV_abund_frequency_dict.get(columnName)
+                        #exit()
                     #     # exit()
                     if LDV_abund_frequency_dict.get(columnName) is not None:
                         
@@ -145,8 +162,10 @@ def load_genomes_in_node(Genomes_in_node, node_allele_ldv, LDV_abund_frequency_d
                         # else:
                         #     specific = "WGA allele and Metagenome allele are different"
                         print (columnName, columnData, instrain_allele_called.lstrip(), instrain_allele_freq.lstrip(), comment.lstrip(), specific)
+                        fp_log.write("%s,%s,%s,%s,%s,%s\n" % (columnName, columnData, instrain_allele_called.lstrip(), instrain_allele_freq.lstrip(), comment.lstrip(), specific))
                     else:
                         print (columnName, columnData, "NA", "NA", "Position not called", "NA")
+                        fp_log.write("%s,%s,NA,NA,Position not called,NA\n" % (columnName, columnData))
             benchmark = benchmark + "Node%s->%s/%s/%s " % (nodes, specific_same_allele_called_in_both, specific_different_allele_called_in_both, no_of_ldv_for_node)
 
     
@@ -154,9 +173,10 @@ def load_genomes_in_node(Genomes_in_node, node_allele_ldv, LDV_abund_frequency_d
     non_specific_benchmark = ""
     no_of_nodes_genome_id_is_not_present = 0
     for nodes in df2.columns:
+        print nodes
         if nodes not in cols:
             if nodes in node_allele_ldv.keys():
-                #print nodes
+                print nodes
                 no_of_nodes_genome_id_is_not_present += 1
                 no_of_ldv_for_node = 0
                 specific_same_allele_called_in_both = 0
@@ -175,8 +195,8 @@ def load_genomes_in_node(Genomes_in_node, node_allele_ldv, LDV_abund_frequency_d
                         #     print columnData
                         #     print LDV_abund_frequency_dict.get(columnName.astype('str'))
                         #     exit()
-                        if LDV_abund_frequency_dict.get(columnName.astype('str')) is not None:
-                            
+                        #if LDV_abund_frequency_dict.get(columnName.astype('str')) is not None:
+                        if LDV_abund_frequency_dict.get(columnName) is not None:   
                             instrain_allele_called = str(
                                 ((LDV_abund_frequency_dict[columnName]).split(','))[2])
                             instrain_allele_freq = str(
@@ -215,11 +235,14 @@ def load_genomes_in_node(Genomes_in_node, node_allele_ldv, LDV_abund_frequency_d
                                 specific = "WGA allele and Metagenome allele are different"
                                 specific_different_allele_called_in_both += 1
                             print (columnName, columnData, instrain_allele_called.lstrip(), instrain_allele_freq.lstrip(), comment.lstrip(), specific)
+                            fp_log.write("%s,%s,%s,%s,%s,%s\n" % (columnName, columnData, instrain_allele_called.lstrip(), instrain_allele_freq.lstrip(), comment.lstrip(), specific))
                         else:
                             print (columnName, columnData, "NA", "NA", "Position not called", "NA")
+                            fp_log.write("%s,%s,NA,NA,Position not called,NA\n" % (columnName, columnData))
                 if specific_same_allele_called_in_both > 0 or specific_different_allele_called_in_both > 0:
                     non_specific_benchmark = non_specific_benchmark + "Node%s->%s/%s/%s/%s " % (nodes, specific_same_allele_called_in_both, specific_different_allele_called_in_both, no_of_ldv_for_node)
             else:
+                #print "Node %s not in dict" % nodes
                 specific_same_allele_called_in_both = 0
                 specific_different_allele_called_in_both = 0
                 # specific_same_allele_called_in_freebayes = 0
@@ -238,7 +261,7 @@ def load_genomes_in_node(Genomes_in_node, node_allele_ldv, LDV_abund_frequency_d
     # print("%s,%s,%s,%s" % (
     # os.path.basename(args.Final_LDV_abund_frequency), str(genome_id[0]), no_of_nodes_genome_id_is_present, no_of_nodes_genome_id_is_not_present))
     fp.close()
-
+    fp_log.close()
 
 def load_LDV_abund_frequency(Final_LDV_abund_frequency):
     global LDV_abund_frequency
