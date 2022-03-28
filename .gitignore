@@ -16,3 +16,4 @@ results/
 test_data/
 logs/
 *.sbat
+slurm-*
