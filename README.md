@@ -5,4 +5,6 @@ SAMOSA is a Snakemake computational workflow for performing strain level detecti
 
 ![Workflow](https://github.com/alipirani88/samosa/blob/main/dag.svg)
 
+### Usage
+
 ```snakemake -j 999 --cluster-config config/cluster.json --cluster "sbatch -A {cluster.account} -p {cluster.partition} -N {cluster.nodes}  -t {cluster.walltime} -c {cluster.procs} --mem-per-cpu {cluster.pmem}" --use-conda```
