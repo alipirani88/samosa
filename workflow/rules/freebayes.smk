@@ -13,4 +13,4 @@ rule freebayes:
     conda:
         "envs/freebayes.yml"
     shell:
-        "freebayes-parallel <(fasta_generate_regions.py {input.samtoolsreferenceindex} 100000) {params.threads} -f {input.reference} --min-alternate-count 2 --min-alternate-fraction 0 --ploidy 1 --pooled-continuous --report-monomorphic {input.bamdedup} > {output.rawvcf} &>{log}"
+        "freebayes-parallel <(fasta_generate_regions.py {input.samtoolsreferenceindex} 100000) {params.threads} -f {input.reference} --min-alternate-count 2 --min-alternate-fraction 0 --ploidy 1 --pooled-continuous --report-monomorphic {input.bamdedup} > {output.rawvcf}"
