@@ -1,7 +1,7 @@
-name: instrain_snakemake
+name: trimmomatic
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - trimmomatic
+  - trimmomatic=0.36

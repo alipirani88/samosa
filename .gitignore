@@ -13,3 +13,6 @@ hg37*
 resources/
 results/
 .snakemake/
+test_data/
+logs/
+*.sbat

@@ -1,8 +1,8 @@
-name: instrain_snakemake
+name: kneaddata
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - kneaddata
-  - trimmomatic
+  - kneaddata=0.10.0
+  - trimmomatic=0.36

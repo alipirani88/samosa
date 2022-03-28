@@ -1,7 +1,7 @@
 rule trimmomatic_pe:
     input:
-        r1 = "results/Clean_Human_removed/{sample}_paired_1.fastq.gz",
-        r2 = "results/Clean_Human_removed/{sample}_paired_2.fastq.gz",
+        r1 = "results/Clean_Human_removed/{sample}.1.paired",
+        r2 = "results/Clean_Human_removed/{sample}.2.paired",
     output:
         r1 = "results/trimmed/{sample}_R1_001.fastq.gz",
         r2 = "results/trimmed/{sample}_R2_001.fastq.gz",

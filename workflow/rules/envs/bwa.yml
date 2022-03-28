@@ -1,7 +1,8 @@
-name: instrain_snakemake
+name: bwa
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - instrain
+  - bwa=0.7.17
+  - samtools=1.15

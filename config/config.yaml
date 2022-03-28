@@ -1,6 +1,5 @@
 samples: config/samples.tsv
-fastq_dir: /nfs/esnitkin/Project_VRE_metagenomics_analysis/Sequence_data/fastq/3381-CB/fastqs_3381-CB
-#fastq_dir: /nfs/turbo/umms-esnitkin/Project_VRE_metagenomics_analysis/Analysis/2021_06_25_LDV_Simulation/Simulated_data/test_data
+fastq_dir: /nfs/turbo/umms-esnitkin/Project_VA_NH_study/Sequence_data/fastq
 
 # Command line parameters for rule trimmomatic_pe - trimmomatic.smk
 adapter_file: /config/adapters/NexteraPE-PE.fa
@@ -15,5 +14,9 @@ minlength: 40
 headcrop_length: 0
 
 # Reference Genome Settings
-reference_path: resources/cdiff_630.fasta
-reference_stb: resources/cdiff_630.stb
+reference_path: resources/Aus0004.fasta
+reference_stb: resources/Aus0004.stb
+
+
+# Human Bowtie2 index
+hgbtdb: resources/kneaddata/hg37dec_v0.1 

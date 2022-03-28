@@ -1,7 +1,7 @@
-name: instrain_snakemake
+name: picard
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - picard
+  - picard=2.18.7
