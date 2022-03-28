@@ -1,0 +1,32 @@
+mkdir: cannot create directory ‘results’: File exists
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+
+[Mon Mar 28 13:35:13 2022]
+rule Remove_human:
+    input: /nfs/esnitkin/Github/samosa/test_data/VA_ENV_11_R1.fastq.gz, /nfs/esnitkin/Github/samosa/test_data/VA_ENV_11_R2.fastq.gz
+    output: results/Clean_Human_removed/VA_ENV_11.1.paired, results/Clean_Human_removed/VA_ENV_11.2.paired, results/Clean_Human_removed/VA_ENV_11.unpaired, results/Clean_Human_removed/VA_ENV_11_aln.sam
+    log: logs/kneaddata/VA_ENV_11.log
+    jobid: 0
+    wildcards: sample=VA_ENV_11
+    resources: mem_mb=1000, disk_mb=1000, tmpdir=/tmp
+
+Activating conda environment: /nfs/esnitkin/Github/samosa/.snakemake/conda/a159ac920e1cf199f6b4a92cfb4b4d7b
+[Mon Mar 28 13:35:25 2022]
+Error in rule Remove_human:
+    jobid: 0
+    output: results/Clean_Human_removed/VA_ENV_11.1.paired, results/Clean_Human_removed/VA_ENV_11.2.paired, results/Clean_Human_removed/VA_ENV_11.unpaired, results/Clean_Human_removed/VA_ENV_11_aln.sam
+    log: logs/kneaddata/VA_ENV_11.log (check log file(s) for error message)
+    conda-env: /nfs/esnitkin/Github/samosa/.snakemake/conda/a159ac920e1cf199f6b4a92cfb4b4d7b
+    shell:
+        bowtie2 -p 4 -x resources/kneaddata/hg37dec_v0.1 -1 /nfs/esnitkin/Github/samosa/test_data/VA_ENV_11_R1.fastq.gz -2 /nfs/esnitkin/Github/samosa/test_data/VA_ENV_11_R2.fastq.gz --un-conc results/Clean_Human_removed/VA_ENV_11.paired --un results/Clean_Human_removed/VA_ENV_11.unpaired -S results/Clean_Human_removed/VA_ENV_11_aln.sam --non-deterministic --end-to-end &>logs/kneaddata/VA_ENV_11.log
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Removing output files of failed job Remove_human since they might be corrupted:
+results/Clean_Human_removed/VA_ENV_11.1.paired, results/Clean_Human_removed/VA_ENV_11.2.paired, results/Clean_Human_removed/VA_ENV_11.unpaired, results/Clean_Human_removed/VA_ENV_11_aln.sam
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=34229583.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

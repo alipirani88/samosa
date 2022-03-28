@@ -1,0 +1,20 @@
+mkdir: cannot create directory ‘results’: File exists
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 4
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+
+[Mon Mar 28 13:42:08 2022]
+rule trimmomatic_pe:
+    input: results/Clean_Human_removed/VA_ENV_11.1.paired, results/Clean_Human_removed/VA_ENV_11.2.paired
+    output: results/trimmed/VA_ENV_11_R1_001.fastq.gz, results/trimmed/VA_ENV_11_R2_001.fastq.gz, results/trimmed/VA_ENV_11_R1_unpaired.fastq.gz, results/trimmed/VA_ENV_11_R2_unpaired.fastq.gz
+    log: logs/trimmomatic/VA_ENV_11.log
+    jobid: 0
+    wildcards: sample=VA_ENV_11
+    resources: mem_mb=1000, disk_mb=1000, tmpdir=/tmp
+
+Activating conda environment: /nfs/esnitkin/Github/samosa/.snakemake/conda/4c6f0248a8f0612dfc26f0fbd0b5f582
+[Mon Mar 28 13:42:11 2022]
+Finished job 0.
+1 of 1 steps (100%) done

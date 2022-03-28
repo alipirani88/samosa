@@ -2,11 +2,13 @@ configfile: "config/config.yaml"
 
 
 import pandas as pd
+import os
 
 samples_df = pd.read_table(config["samples"]).set_index("sample", drop=False)
 SAMPLES = list(samples_df['sample'])
 reference_path = config["reference_path"]
 reference_seqdict = reference_path.replace('.fasta', '.dict')
+os.system("mkdir results")
 
 rule all:
     input:

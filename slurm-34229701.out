@@ -1,0 +1,45 @@
+mkdir: cannot create directory ‘results’: File exists
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 4
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+
+[Mon Mar 28 13:42:46 2022]
+rule bowtie2Align:
+    input: results/trimmed/VA_ENV_12_R1_001.fastq.gz, results/trimmed/VA_ENV_12_R2_001.fastq.gz, results/trimmed/VA_ENV_12_R1_unpaired.fastq.gz, results/trimmed/VA_ENV_12_R2_unpaired.fastq.gz, resources/Aus0004.fasta.1.bt2
+    output: results/mapped/VA_ENV_12_aln.sam, results/mapped/VA_ENV_12_aln.bam, results/mapped/VA_ENV_12_aln_sort.bam
+    log: logs/bowtie2/VA_ENV_12.log
+    jobid: 0
+    wildcards: sample=VA_ENV_12
+    resources: mem_mb=1000, disk_mb=1000, tmpdir=/tmp
+
+Activating conda environment: /nfs/esnitkin/Github/samosa/.snakemake/conda/5a4b16a499b4aea1d09482ac23cd36cd
+Time loading reference: 00:00:00
+Time loading forward index: 00:00:00
+Time loading mirror index: 00:00:00
+Multiseed full-index search: 00:00:01
+9946 reads; of these:
+  9433 (94.84%) were paired; of these:
+    2921 (30.97%) aligned concordantly 0 times
+    5874 (62.27%) aligned concordantly exactly 1 time
+    638 (6.76%) aligned concordantly >1 times
+    ----
+    2921 pairs aligned concordantly 0 times; of these:
+      993 (34.00%) aligned discordantly 1 time
+    ----
+    1928 pairs aligned 0 times concordantly or discordantly; of these:
+      3856 mates make up the pairs; of these:
+        3510 (91.03%) aligned 0 times
+        143 (3.71%) aligned exactly 1 time
+        203 (5.26%) aligned >1 times
+  513 (5.16%) were unpaired; of these:
+    100 (19.49%) aligned 0 times
+    374 (72.90%) aligned exactly 1 time
+    39 (7.60%) aligned >1 times
+81.37% overall alignment rate
+Time searching: 00:00:01
+Overall time: 00:00:01
+[Mon Mar 28 13:42:48 2022]
+Finished job 0.
+1 of 1 steps (100%) done

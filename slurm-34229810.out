@@ -1,0 +1,20 @@
+mkdir: cannot create directory ‘results’: File exists
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 4
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+
+[Mon Mar 28 13:44:06 2022]
+rule samtools_index:
+    input: results/DedupReads/VA_ENV_11_aln_marked.bam
+    output: results/DedupReads/VA_ENV_11_aln_marked.bam.bai
+    log: logs/samtools/VA_ENV_11_samtools.log
+    jobid: 0
+    wildcards: sample=VA_ENV_11
+    resources: mem_mb=1000, disk_mb=1000, tmpdir=/tmp
+
+Activating conda environment: /nfs/esnitkin/Github/samosa/.snakemake/conda/157ca0c8b1e6adeba99d7105819bbf33
+[Mon Mar 28 13:44:07 2022]
+Finished job 0.
+1 of 1 steps (100%) done
