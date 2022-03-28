@@ -1,8 +1,10 @@
 samples: config/samples.tsv
-fastq_dir: /nfs/turbo/umms-esnitkin/Project_VA_NH_study/Sequence_data/fastq
+fastq_dir: /nfs/esnitkin/Github/samosa/test_data
+
+ncores: 4
 
 # Command line parameters for rule trimmomatic_pe - trimmomatic.smk
-adapter_file: /config/adapters/NexteraPE-PE.fa
+adapter_file: config/adapters/NexteraPE-PE.fa
 seed_mismatches: 2
 palindrome_clipthreshold: 30
 simple_clipthreshold: 10
@@ -16,7 +18,6 @@ headcrop_length: 0
 # Reference Genome Settings
 reference_path: resources/Aus0004.fasta
 reference_stb: resources/Aus0004.stb
-
 
 # Human Bowtie2 index
 hgbtdb: resources/kneaddata/hg37dec_v0.1 

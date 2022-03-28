@@ -13,4 +13,4 @@ rule instrain:
         "logs/instrain/{sample}_instrain.log"
     shell:
         #--skip_plot_generation
-        "inStrain profile {input.bamdedup} {input.reference} -o {output.instrain_out} -s {input.reference_stb} --pairing_filter non_discordant --detailed_mapping_info"
+        "inStrain profile {input.bamdedup} {input.reference} -o {output.instrain_out} -s {input.reference_stb} --pairing_filter non_discordant --detailed_mapping_info &>{log}"
