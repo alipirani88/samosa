@@ -19,6 +19,8 @@ import time
 import gc
 import datetime
 from collections import Counter
+from pyfasta import Fasta
+
 
 # Parse Command line Arguments
 parser = argparse.ArgumentParser(description='This script will parse Freebayes, GATK Mutect 2 and Instrain vcf/snv file and extract allele frequency for the called variants')

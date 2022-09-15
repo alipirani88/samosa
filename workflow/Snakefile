@@ -17,6 +17,7 @@ rule all:
         gatk_depth_summary=expand("results/DedupReads/{sample}_depth_of_coverage", sample=SAMPLES),
         mergedvcf=expand("results/MergedVCF/{sample}_all_merged.vcf", sample=SAMPLES),
         instrain_out=expand("results/instrain/{sample}_instrain", sample=SAMPLES),
+        LDV_abund_frequency=expand("results/extract_allele/{sample}_LDV_abund_frequency.csv", sample=SAMPLES),
 
 # delete everything so we can re-run things
 rule clean:
@@ -30,3 +31,4 @@ include: "rules/gatk.smk"
 include: "rules/samtools.smk"
 include: "rules/freebayes.smk"
 include: "rules/instrain.smk"
+include: "rules/extract_alleles.smk"

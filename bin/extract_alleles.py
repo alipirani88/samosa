@@ -20,6 +20,8 @@ import gc
 import datetime
 from collections import Counter
 
+
+
 # Parse Command line Arguments
 parser = argparse.ArgumentParser(description='This script will parse Freebayes, GATK Mutect 2 and Instrain vcf/snv file and extract allele frequency for the called variants')
 required = parser.add_argument_group('Required arguments')
@@ -314,8 +316,8 @@ def extract_freebayes():
             key, v.POS, Reference_allele, Reference_allele_freq, ALT_allele_5, Alt_allele_freq_5, reference_depth,
             alt_allele_depth)
 
-    print "Number of Positions with Single SNP allele in Freebayes vcf - %s" % freebayes_single_allele_snp_count
-    print "Number of Positions with Multiple SNP allele in Freebayes vcf - %s" % freebayes_multi_allele_snp_count
+    print ("Number of Positions with Single SNP allele in Freebayes vcf - %s" % freebayes_single_allele_snp_count)
+    print ("Number of Positions with Multiple SNP allele in Freebayes vcf - %s" % freebayes_multi_allele_snp_count)
     fp.close()
     return freebayes_dict, freebayes_AF_dict
 
@@ -356,7 +358,7 @@ def extract_instrain():
         elif row[15] == "SNV" and int(row[3]) > 1:
             # when there is more than one allele found, and con_base equal ref_base equal major allele
             if row[4] != row[5]:
-                print "Warning: Con base is not equal to ref base"
+                print ("Warning: Con base is not equal to ref base")
                 exit()
             instrain_multi_allele_snp_count += 1
             instrain_multi_snp_positions.append(row[1])
@@ -383,7 +385,7 @@ def extract_instrain():
             # when there is more than one allele found, and con_base is not equal to ref_base.
             # Major allele is con base
             if row[4] == row[5]:
-                print "Warning: Con base should not be equal to ref base"
+                print ("Warning: Con base should not be equal to ref base")
                 exit()
             instrain_multi_allele_snp_count += 1
             instrain_multi_snp_positions.append(row[1])
@@ -410,7 +412,7 @@ def extract_instrain():
             # when there is more than one allele found, and con_base is not equal to ref_base.
             # Major allele is con base, minor allele is var base
             if row[4] == row[5]:
-                print "Warning: Con base should not be equal to ref base"
+                print ("Warning: Con base should not be equal to ref base")
                 exit()
             instrain_multi_allele_snp_count += 1
             instrain_multi_snp_positions.append(row[1])
@@ -450,12 +452,12 @@ def extract_instrain():
         elif row[15] == "AmbiguousReference":
             continue
         else:
-                print "Unknown class"
-                print row
+                print ("Unknown class")
+                print (row)
                 exit()
 
-    print "Number of Positions with Single SNP allele in Instrain SNV - %s" % instrain_single_allele_snp_count
-    print "Number of Positions with Multiple SNP allele in Instrain SNV - %s" % instrain_multi_allele_snp_count
+    print ("Number of Positions with Single SNP allele in Instrain SNV - %s" % instrain_single_allele_snp_count)
+    print ("Number of Positions with Multiple SNP allele in Instrain SNV - %s" % instrain_multi_allele_snp_count)
     fp.close()
     return instrain_dict, instrain_AF_dict, LDV_abund_file
 
@@ -523,7 +525,7 @@ def extract_gatk_Mutect():
             AD_array = (((((str(v.format('AD'))).replace('  ', ' ')).replace('[ ', '[')).replace('[', '')).replace(']', '')).split(' ')
             AD_array = list(filter(None, AD_array))
             if int(v.format('DP')) == 0:
-                print "Warning - Depth at %s was 0. Please check the VCF file - %s" % (v.POS, args.Mutect_vcf)
+                print ("Warning - Depth at %s was 0. Please check the VCF file - %s" % (v.POS, args.Mutect_vcf))
                 total_depth = 1
                 # exit()
             else:
@@ -559,7 +561,7 @@ def extract_gatk_Mutect():
             AD_array = (((((str(v.format('AD'))).replace('  ', ' ')).replace('[ ', '[')).replace('[', '')).replace(']', '')).split(' ')
             AD_array = list(filter(None, AD_array))
             if int(v.format('DP')) == 0:
-                print "Warning - Depth at %s was 0. Please check the VCF file - %s" % (v.POS, args.Mutect_vcf)
+                print ("Warning - Depth at %s was 0. Please check the VCF file - %s" % (v.POS, args.Mutect_vcf))
                 total_depth = 1
                 # exit()
             else:
@@ -611,7 +613,7 @@ def extract_gatk_Mutect():
             AD_array = (((((str(v.format('AD'))).replace('  ', ' ')).replace('[ ', '[')).replace('[', '')).replace(']', '')).split(' ')
             AD_array = list(filter(None, AD_array))
             if int(v.format('DP')) == 0:
-                print "Warning - Depth at %s was 0. Please check the VCF file - %s" % (v.POS, args.Mutect_vcf)
+                print ("Warning - Depth at %s was 0. Please check the VCF file - %s" % (v.POS, args.Mutect_vcf))
                 total_depth = 1
                 # exit()
             else:
@@ -673,10 +675,10 @@ def extract_gatk_Mutect():
                 alt_allele_depth_4)
 
         elif len(alt) == 6:
-            print "More than 5 alleles found at Position %s. Please add a rule to the source code" % key
+            print ("More than 5 alleles found at Position %s. Please add a rule to the source code" % key)
             #exit()
-    print "Number of Positions with Single SNP allele in GATK Mutect vcf - %s" % gatk_single_allele_snp_count
-    print "Number of Positions with Multiple SNP allele in GATK Mutect vcf - %s" % gatk_multi_allele_snp_count
+    print ("Number of Positions with Single SNP allele in GATK Mutect vcf - %s" % gatk_single_allele_snp_count)
+    print ("Number of Positions with Multiple SNP allele in GATK Mutect vcf - %s" % gatk_multi_allele_snp_count)
 
     #print sorted(gatk_multi_snp_positions)
     return gatk_dict, gatk_AF_dict
@@ -705,26 +707,26 @@ def compare_variant_calls():
                 same_genome_LDV_abund_map[row[0]] = (row[2])
             elif row[1] == "Not found(Split/Unmap)":
                 count_not_found += 1
-    print "Length of reference_genome_LDV_abund_map - %s" % len(reference_genome_LDV_abund_map)
-    print "Length of same_genome_LDV_abund - %s" % len(same_genome_LDV_abund_map)
+    print ("Length of reference_genome_LDV_abund_map - %s" % len(reference_genome_LDV_abund_map))
+    print ("Length of same_genome_LDV_abund - %s" % len(same_genome_LDV_abund_map))
 
-    print "Not found - %s" % count_not_found
+    print ("Not found - %s" % count_not_found)
 
 
     for key in reference_genome_LDV_abund_map.keys():
         if key in same_genome_LDV_abund_map.keys():
             if reference_genome_LDV_abund_map[key] == same_genome_LDV_abund_map[key]:
                 #continue
-                print "Match: %s, %s, %s" % (key, reference_genome_LDV_abund_map[key], same_genome_LDV_abund_map[key])
+                print ("Match: %s, %s, %s" % (key, reference_genome_LDV_abund_map[key], same_genome_LDV_abund_map[key]))
             else:
                 #continue
                 if reference_genome_LDV_abund_map[key] == ".":
-                    print "Not a Match: %s, %s (No variant called for Aus), %s" % (key, reference_genome_LDV_abund_map[key], same_genome_LDV_abund_map[key])
+                    print ("Not a Match: %s, %s (No variant called for Aus), %s" % (key, reference_genome_LDV_abund_map[key], same_genome_LDV_abund_map[key]))
                 else:
-                    print "Not a Match: %s, %s, %s" % (key, reference_genome_LDV_abund_map[key], same_genome_LDV_abund_map[key])
+                    print ("Not a Match: %s, %s, %s" % (key, reference_genome_LDV_abund_map[key], same_genome_LDV_abund_map[key]))
 
         else:
-            print "Key Not found - %s" % key
+            print ("Key Not found - %s" % key)
 
 class Genotype(object):
     __slots__ = ('alleles', 'phased')
@@ -761,6 +763,8 @@ freebayes_keys = list(freebayes_dict.keys())
 instrain_keys = list(instrain_dict.keys())
 uniq_keys = gatk_keys + freebayes_keys + instrain_keys
 
+
+
 # Start the counter for statistics
 positions_called_by_all = 0
 position_called_by_only_freebayes = 0
@@ -776,7 +780,8 @@ positions_called_by_all_but_different = 0
 # header = "LDV Position, Strain Position, Instrain Reference Allele, Instrain Reference Allele Frequency, Instrain ALT Allele, Instrain ALT Allele Frequency, Instrain REF allele Depth, Instrain ALT Allele Depth"
 # fp.write("%s\n" % header)
 
-for position in sorted(uniq_keys):
+
+for position in uniq_keys:
     AF_string = ""
     if position in gatk_dict.keys() and position in freebayes_dict.keys() and position in instrain_dict.keys():
         positions_called_by_all += 1
@@ -800,16 +805,14 @@ for position in sorted(uniq_keys):
         position_called_by_only_instrain += 1
     # fp.write("%s\n" % AF_string)
 
-print "####\nGeneral statistics - Positions called in each variant callers\n####"
-print "Total Number of positions called - %s" % len(uniq_keys)
-print "positions_called_by_all - %s" % positions_called_by_all
-print "positions_called_by_all_and_same - %s" % positions_called_by_all_and_same
-print "positions_called_by_all_but_different - %s" % positions_called_by_all_but_different
-print "position_called_by_only_freebayes - %s" % position_called_by_only_freebayes
-print "position_called_by_only_gatk - %s" % position_called_by_only_gatk
-print "position_called_by_only_instrain - %s" % position_called_by_only_instrain
-print "Analysis saved in - %s\n" % LDV_abund_file
+print ("####\nGeneral statistics - Positions called in each variant callers\n####")
+print ("Total Number of positions called - %s" % len(uniq_keys))
+print ("positions_called_by_all - %s" % positions_called_by_all)
+print ("positions_called_by_all_and_same - %s" % positions_called_by_all_and_same)
+print ("positions_called_by_all_but_different - %s" % positions_called_by_all_but_different)
+print ("position_called_by_only_freebayes - %s" % position_called_by_only_freebayes)
+print ("position_called_by_only_gatk - %s" % position_called_by_only_gatk)
+print ("position_called_by_only_instrain - %s" % position_called_by_only_instrain)
+print ("Analysis saved in - %s\n" % LDV_abund_file)
 
-
-###Assign Strain analysis
 

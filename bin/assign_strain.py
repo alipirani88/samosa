@@ -21,7 +21,7 @@ import math
 
 # Parse Command line Arguments
 parser = argparse.ArgumentParser(
-    description='This script will parse *Final_LDV_abund_frequency.csv file and assign strain using LDV obratined from Joyce\'s R script and Metagenome-Genome well mapping file')
+    description='This script will parse *_LDV_abund_frequency.csv file and assign strain using LDVs obtained from Joyce\'s R script and Metagenome-Genome well mapping file')
 required = parser.add_argument_group('Required arguments')
 optional = parser.add_argument_group('Optional arguments')
 required.add_argument('-LDV_abund_frequency', action='store', dest="Final_LDV_abund_frequency",
@@ -43,7 +43,7 @@ def isNaN(string):
 def load_metagenome_to_genome_map(Metagenome_to_Genome):
     genome_id = []
     df = pd.read_csv("%s" % Metagenome_to_Genome, sep='\t', header=0, dtype = str)
-    print "Loading Metagenome to Genome Metadata Lookup"
+    print ("Loading Metagenome to Genome Metadata Lookup")
     for index, row in df.iterrows():
         #print str(row[1])
         if (os.path.basename(args.Final_LDV_abund_frequency)).replace('_LDV_abund_frequency.csv', '') in str(row[1]):
@@ -74,14 +74,6 @@ def load_ldv_by_node(LDV_by_node_matrix):
     #for i in all_ldv_pos:
     #    print int(i) + 1
     return node_allele_ldv
-
-class StringConverter(dict):
-    def __contains__(self, item):
-        return True
-    def __getitem__(self, item):
-        return str
-    def get(self, default=None):
-        return str
 
 def load_genomes_in_node(Genomes_in_node, node_allele_ldv, LDV_abund_frequency_dict):
     df2 = pd.read_csv("%s" % Genomes_in_node, sep='\t', header=0, dtype = str)
