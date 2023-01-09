@@ -8,8 +8,8 @@ rule instrain:
     output:
         instrain_out=directory("results/instrain/{sample}_instrain"),
 	instrain_outfile="results/instrain/{sample}_instrain/output/{sample}_instrain_SNVs.tsv",
-    #conda:
-    #    "envs/instrain.yml"
+    conda:
+        "envs/instrain.yml"
     log:
         "logs/instrain/{sample}_instrain.log"
     shell:
