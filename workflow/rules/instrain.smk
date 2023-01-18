@@ -7,8 +7,9 @@ rule instrain:
         reference_stb=config["reference_stb"],
     output:
         instrain_out=directory("results/instrain/{sample}_instrain"),
-    conda:
-        "envs/instrain.yml"
+	instrain_outfile="results/instrain/{sample}_instrain/output/{sample}_instrain_SNVs.tsv",
+    #conda:
+    #    "envs/instrain.yml"
     log:
         "logs/instrain/{sample}_instrain.log"
     shell:

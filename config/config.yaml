@@ -1,5 +1,6 @@
 samples: config/samples.tsv
-fastq_dir: /nfs/esnitkin/Github/samosa/test_data
+fastq_dir: /nfs/turbo/umms-esnitkin/Project_Cdiff/Sequence_data/2022_03_24_Cdiff_Population/
+#fastq_dir: /scratch/esnitkin_root/esnitkin/apirani/Project_Cdiff/Analysis/Project_U01_SB/2021_09_07_Strainest_Mixed_Strain_Simulation
 
 ncores: 4
 
@@ -16,8 +17,8 @@ minlength: 40
 headcrop_length: 0
 
 # Reference Genome Settings
-reference_path: resources/Aus0004.fasta
-reference_stb: resources/Aus0004.stb
+reference_path: resources/cdiff_630.fasta
+reference_stb: resources/cdiff_630.stb
 
 # Human Bowtie2 index
 hgbtdb: resources/kneaddata/hg37dec_v0.1 
